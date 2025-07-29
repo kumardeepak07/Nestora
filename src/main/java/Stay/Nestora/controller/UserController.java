@@ -1,5 +1,8 @@
 package Stay.Nestora.controller;
 
+import Stay.Nestora.auth.AuthService;
+import Stay.Nestora.dto.AuthRequest;
+import Stay.Nestora.dto.AuthResponse;
 import Stay.Nestora.model.Role;
 import Stay.Nestora.model.User;
 import Stay.Nestora.repository.UserRepository;
@@ -14,6 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserController {
     private final UserRepository userRepository;
+    private final AuthService authService;
 
     @PostMapping("/register")
     public ResponseEntity<User> register(@RequestBody User user) {
@@ -25,4 +29,6 @@ public class UserController {
     public ResponseEntity<List<User>> getAll() {
         return ResponseEntity.ok(userRepository.findAll());
     }
+
+
 }
