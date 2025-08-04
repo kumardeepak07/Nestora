@@ -5,6 +5,7 @@ import Home from "./pages/Home";
 import Properties from "./pages/Properties";
 import MyBookings from "./pages/MyBookings";
 import PropertyDetails from "./pages/PropertyDetails";
+import Footer from "./components/Footer";
 
 const App = () => {
   const [setShowLogin] = useState(false);
@@ -14,11 +15,13 @@ const App = () => {
       {!isOwnerPath && <Navbar setShowLogin={setShowLogin}/>}
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/property-Details" element={<PropertyDetails />} />
+        <Route path="/property-details/:id" element={<PropertyDetails />} />
         <Route path="/properties" element={<Properties />} />
         <Route path="/my-bookings" element={<MyBookings />} />
         {/* Add other routes here */}
       </Routes>
+      {!isOwnerPath && <Footer />}
+      
     </>
   );
 }
