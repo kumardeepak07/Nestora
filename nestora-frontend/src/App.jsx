@@ -6,6 +6,11 @@ import Properties from "./pages/Properties";
 import MyBookings from "./pages/MyBookings";
 import PropertyDetails from "./pages/PropertyDetails";
 import Footer from "./components/Footer";
+import Layout from "./pages/owner/Layout";
+import Dashboard from "./pages/owner/Dashboard";
+import AddProperty from "./pages/owner/AddProperty";
+import ManageProperty from "./pages/owner/ManageProperty";
+import ManageBookings from "./pages/owner/ManageBookings";
 
 const App = () => {
   const [setShowLogin] = useState(false);
@@ -18,7 +23,12 @@ const App = () => {
         <Route path="/property-details/:id" element={<PropertyDetails />} />
         <Route path="/properties" element={<Properties />} />
         <Route path="/my-bookings" element={<MyBookings />} />
-        {/* Add other routes here */}
+        <Route path="/owner" element={<Layout />}>
+          <Route index element={<Dashboard />} />
+          <Route path="add-property" element={<AddProperty />} />
+          <Route path="manage-property" element={<ManageProperty />} />
+          <Route path="manage-bookings" element={<ManageBookings />} />
+        </Route>
       </Routes>
       {!isOwnerPath && <Footer />}
       
