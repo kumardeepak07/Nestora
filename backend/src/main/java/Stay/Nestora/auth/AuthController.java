@@ -1,12 +1,10 @@
 package Stay.Nestora.auth;
 
-import Stay.Nestora.dto.AuthRequest;
-import Stay.Nestora.dto.AuthResponse;
-import Stay.Nestora.dto.LoginRequest;
-import Stay.Nestora.dto.RegisterRequest;
+import Stay.Nestora.dto.*;
 import Stay.Nestora.jwt.JwtService;
+import Stay.Nestora.model.User;
+import Stay.Nestora.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -17,18 +15,26 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
 public class AuthController {
     private final AuthService authService;
+    private final UserRepository userRepository;
     private final AuthenticationManager authenticationManager;
     private final UserDetailsService userDetailsService;
     private final JwtService jwtService;
 
     @PostMapping("/register")
-    public ResponseEntity<AuthResponse> register(@RequestBody RegisterRequest req) {
-        return ResponseEntity.ok(authService.register(req));
+    public ResponseEntity<?> register(@RequestBody RegisterRequest req) {
+        Optional<User> user = userRepository.findByEmail(req.getEmail());
+        if(user.isPresent()) {
+            return ResponseEntity.ok(new ApiResponse<String>(false, null, "User already exists"));
+        }
+        ApiResponse<String> apiResponse = new ApiResponse<String>(true, authService.register(req).getToken(),"User Added Successfully");
+        return ResponseEntity.ok(apiResponse);
     }
 
     @PostMapping("/login")
@@ -38,18 +44,16 @@ public class AuthController {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
             );
-
-            // Load user details from DB
             UserDetails userDetails = userDetailsService.loadUserByUsername(request.getEmail());
-
             // Generate JWT token
             String token = jwtService.generateToken(userDetails);
-
             // Return the token
-            return ResponseEntity.ok(token);
-
+            ApiResponse<String> apiResponse = new ApiResponse<String>(true, token,"User Added Successfully");
+            return ResponseEntity.ok(apiResponse);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password");
+            ApiResponse<String> apiResponse = new ApiResponse<String>(true, e.getMessage(),"User Added Successfully");
+            return ResponseEntity.ok(apiResponse);
+
         }
     }
 }

@@ -35,16 +35,5 @@ public class AuthService {
         String jwt = jwtService.generateToken((UserDetails) user);
         return new AuthResponse(jwt);
     }
-
-
-    public AuthResponse login(AuthRequest req) {
-        authManager.authenticate(
-                new UsernamePasswordAuthenticationToken(req.getEmail(), req.getPassword())
-        );
-        User user = userRepo.findByEmail(req.getEmail())
-                .orElseThrow(() -> new RuntimeException("User not found"));
-        String jwt = jwtService.generateToken((UserDetails) user);
-        return new AuthResponse(jwt);
-    }
 }
 
