@@ -13,8 +13,14 @@ const Sidebar = () => {
     const updateImage = async () => {
         try {
           const formData = new FormData()
-          formData.append('image', image)
-          const {data} = await axios.post('/api/owner/update-image', formData)
+          formData.append('file', image)
+          const { data } = await axios.post('/api/images/user-profile', formData, 
+            { 
+              headers: { 
+                'Authorization': localStorage.getItem('token')
+              } 
+            }
+          );
           if(data.success){
             fetchUser()
             toast.success(data.message)

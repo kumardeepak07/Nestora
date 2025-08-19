@@ -7,8 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 
-import java.util.UUID;
-
 @Entity
 @Data
 @NoArgsConstructor
@@ -17,14 +15,24 @@ import java.util.UUID;
 public class Property {
     @jakarta.persistence.Id
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long _id;
 
     private String title;
     private String description;
-    private String price;
-    private String imageUrl;
-    private Double dailyPrice;
-    private Double monthlyPrice;
+    private String image;
+    private String property_type;
+    private String currency;
+    private Double daily_price;
+    private Double monthly_price;
+    private boolean isAvailable;
+    private PropertyCategory category;
+    private int total_rooms_available;
+    private String room_capacity;
+    private boolean isSwimmingPoolAvailable;
+    private boolean isGymAvailable;
+    private String hospital_distance;
+    private String airport_distance;
+
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id")
@@ -36,10 +44,10 @@ public class Property {
     public String getTitle() {
         return title;
     }
-    public Double getDailyPrice() {
-        return dailyPrice;
+    public Double getDaily_price() {
+        return daily_price;
     }
-    public Double getMonthlyPrice() {
-        return monthlyPrice;
+    public Double getMonthly_price() {
+        return monthly_price;
     }
 }

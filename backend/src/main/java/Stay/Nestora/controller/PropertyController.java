@@ -11,7 +11,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -53,8 +52,8 @@ public class PropertyController {
             existing.setTitle(updated.getTitle());
             existing.setDescription(updated.getDescription());
             existing.setImageUrl(updated.getImageUrl());
-            existing.setDailyPrice(updated.getDailyPrice());
-            existing.setMonthlyPrice(updated.getMonthlyPrice());
+            existing.setDaily_price(updated.getDaily_price());
+            existing.setMonthly_price(updated.getMonthly_price());
             existing.setAddress(updated.getAddress());
             return ResponseEntity.ok(propertyRepository.save(existing));
         }).orElse(ResponseEntity.notFound().build());

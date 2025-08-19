@@ -8,10 +8,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Predicate;
-
 @Service
 @RequiredArgsConstructor
 public class PropertyService {
@@ -30,8 +26,8 @@ public class PropertyService {
 
         Property property = Property.builder()
                 .title(propertyInput.getTitle())
-                .dailyPrice(propertyInput.getDailyPrice())
-                .monthlyPrice(propertyInput.getMonthlyPrice())
+                .daily_price(propertyInput.getDaily_price())
+                .monthly_price(propertyInput.getMonthly_price())
                 .address(address)
                 .build();
 

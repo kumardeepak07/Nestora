@@ -32,8 +32,8 @@ public class BookingService {
             throw new IllegalStateException("Booking conflict: Property is already booked for selected dates.");
         }
 
-        Double monthlyPrice = property.getMonthlyPrice();
-        Double dailyPrice = property.getDailyPrice();
+        Double monthlyPrice = property.getMonthly_price();
+        Double dailyPrice = property.getDaily_price();
 
         double price = "MONTHLY".equals(bookingRequest.getMode())
                 ? (monthlyPrice != null ? monthlyPrice : 0.0)

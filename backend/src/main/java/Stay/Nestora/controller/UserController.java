@@ -2,11 +2,14 @@ package Stay.Nestora.controller;
 
 import Stay.Nestora.auth.AuthService;
 import Stay.Nestora.dto.ApiResponse;
+import Stay.Nestora.dto.ChangeRoleRequest;
 import Stay.Nestora.jwt.JwtService;
 import Stay.Nestora.model.Property;
+import Stay.Nestora.model.Role;
 import Stay.Nestora.model.User;
 import Stay.Nestora.repository.PropertyRepository;
 import Stay.Nestora.repository.UserRepository;
+import Stay.Nestora.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -25,6 +28,7 @@ public class UserController {
     private final PropertyRepository propertyRepository;
     private final AuthService authService;
     private final JwtService jwtService;
+    private final UserService userService;
     private final UserDetailsService userDetailsService;
 
     @GetMapping
@@ -74,5 +78,17 @@ public class UserController {
             properties = propertyRepository.findByOwnerId(user.getId());
         }
         return ResponseEntity.ok(new ApiResponse<List<Property>>(true, properties, "User found"));
+    }
+
+    @PutMapping("/change-role")
+    public ResponseEntity<?> changeUserRole(@RequestBody ChangeRoleRequest role, HttpServletRequest request) {
+        String authHeader = request.getHeader("Authorization");
+        ApiResponse<User> apiResponse = userService.checkUserAuthentication(authHeader);
+        if(apiResponse.isSuccess()) {
+            User user = apiResponse.getData();
+            user.setRole(role.getRole());
+            userRepository.save(user);
+        }
+        return ResponseEntity.ok(apiResponse);
     }
 }

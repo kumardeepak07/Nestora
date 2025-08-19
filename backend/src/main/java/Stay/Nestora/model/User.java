@@ -34,6 +34,8 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @Column
+    private String image;
     // --- UserDetails methods ---
 
     @Override

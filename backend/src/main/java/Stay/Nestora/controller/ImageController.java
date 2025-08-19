@@ -1,6 +1,12 @@
 package Stay.Nestora.controller;
 
+import Stay.Nestora.dto.ApiResponse;
+import Stay.Nestora.model.User;
+import Stay.Nestora.repository.UserRepository;
 import Stay.Nestora.service.ImageStorageService;
+import Stay.Nestora.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,20 +16,31 @@ import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/api/images")
+@RequiredArgsConstructor
 public class ImageController {
     private final ImageStorageService imageStorageService;
+    private final UserService userService;
+    private final UserRepository userRepository;
 
-    public ImageController(ImageStorageService imageStorageService) {
-        this.imageStorageService = imageStorageService;
-    }
-
-    @PostMapping("/upload")
-    public ResponseEntity<?> uploadImage(@RequestParam("file") MultipartFile file) {
+    @PostMapping("/user-profile")
+    public ResponseEntity<?> uploadImage(HttpServletRequest request, @RequestParam("file") MultipartFile file) {
         try {
-            String imageUrl = imageStorageService.uploadImage(file.getBytes(), file.getOriginalFilename());
-            return ResponseEntity.ok(imageUrl);
+            String token = request.getHeader("Authorization");
+            if (token != null) {
+                token = token.replace("Bearer ", "");
+                ApiResponse<User> apiResponse = userService.checkUserAuthentication(token);
+                if (apiResponse.isSuccess()) {
+                    User user = apiResponse.getData();
+                    String imageUrl = imageStorageService.uploadImage(file.getBytes(), file.getOriginalFilename(), "/users");
+                    user.setImage(imageUrl);
+                    userRepository.save(user);
+                    ApiResponse<User> updatedResponse = new ApiResponse<>(true, user, "Profile image updated successfully");
+                    return ResponseEntity.ok(updatedResponse);
+                }
+            }
         } catch (Exception e) {
             return ResponseEntity.status(500).body("Image upload failed: " + e.getMessage());
         }
+        return ResponseEntity.status(500).body(new ApiResponse<>(false, null, "Image upload failed"));
     }
 }
