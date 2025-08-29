@@ -18,7 +18,7 @@ export const AppProvider = ({ children })=>{
     const [showLogin, setShowLogin] = useState(false);
     const [pickupDate, setPickupDate] = useState('');
     const [returnDate, setReturnDate] = useState('');
-    const [cars, setCars] = useState([]);
+    const [properties, setProperties] = useState([]);
 
     const fetchUser = async ()=> {
         try {
@@ -34,10 +34,10 @@ export const AppProvider = ({ children })=>{
         }
     }
 
-    const fetchCars = async () => {
+    const fetchProperties = async () => {
         try {
-            const {data} = await axios.get('/api/user/get-properties')
-            data.success ? setCars(data.data) : toast.error(data.message)
+            const {data} = await axios.get('/api/properties')
+            data.success ? setProperties(data.content) : toast.error(data.message)
         } catch (error) {
             toast.error(error.message)
         }
@@ -58,7 +58,7 @@ export const AppProvider = ({ children })=>{
         const token = localStorage.getItem('token')
         axios.defaults.headers.common['Authorization'] = `${token}`
         setToken(token)
-        fetchCars()
+        fetchProperties()
     },[])
 
     useEffect(()=> {
@@ -71,7 +71,7 @@ export const AppProvider = ({ children })=>{
 
     const value = {
         navigate, currency, axios, user, setUser, token, setToken, isOwner, setIsOwner, fetchUser,
-        showLogin, setShowLogin, logout, fetchCars, cars, setCars, pickupDate, setPickupDate, returnDate, setReturnDate
+        showLogin, setShowLogin, logout, fetchProperties, properties, setProperties, pickupDate, setPickupDate, returnDate, setReturnDate
     }
     return (
     <AppContext.Provider value={value}>

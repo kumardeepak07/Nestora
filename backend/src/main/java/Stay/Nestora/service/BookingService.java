@@ -28,7 +28,7 @@ public class BookingService {
         User user = userRepository.findByEmail(email).orElseThrow();
         Property property = propertyRepository.findById(bookingRequest.getPropertyId()).orElseThrow();
 
-        if (isBookingConflict(property.getId(), bookingRequest.getCheckInDate(), bookingRequest.getCheckOutDate())) {
+        if (isBookingConflict(property.get_id(), bookingRequest.getCheckInDate(), bookingRequest.getCheckOutDate())) {
             throw new IllegalStateException("Booking conflict: Property is already booked for selected dates.");
         }
 

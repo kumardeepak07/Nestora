@@ -10,24 +10,24 @@ const PropertyCard = ({property}) => {
     transition-all duration-500 cursor-pointer'>
       <div className='relative h-48 overflow-hidden'>
         <img src={property.image} alt='Property Image' className='w-full h-full object-cover transition-transform duration-500 group-hover:scale-105' />
-        {property.isAvailable && <p className='absolute top-2 left-4 bg-primary/90 text-white text-xs px-2.5 py-1 rounded-full'>Available Now</p>}      
+        {property.isAvaliable && <p className='absolute top-2 left-4 bg-primary/90 text-white text-xs px-2.5 py-1 rounded-full'>Available Now</p>}      
         <div className='absolute bottom-4 right-4 bg-black/80 backdrop-blur-sm ext-white px-3 py-2 rounded-lg'>
-            <span className='text-sm text-white/80 font-semibold'>{currency} {property.pricePerDay}</span>
+            <span className='text-sm text-white/80 font-semibold'>{currency} {property.daily_price}</span>
             <span className='text-sm text-white/80'> / day</span>
         </div>
       </div>
       <div className='p-4 sm:p-5'>
         <div className='flex justify-center items-start mb-2'>
             <div>
-                <h3 className='text-lg font-medium'>{property.brand} {property.model}</h3>
-                <p className='text-muted-foreground text-sm'>{property.category} . {property.year} </p>
+                <h3 className='text-lg font-medium'>{property.title} {property.property_type}</h3>
+                <p className='text-muted-foreground text-sm'>{property.category} . {property.property_type} </p>
             </div>
         </div>
         
         <div className='mt-4 grid grid-cols-2 gap-y-2 text-gray-600'>
             <div className='flex items-center text-sm text-muted-foreground'>
                 <img src={assets.users_icon} alt="" className='h-4 mr-2' />
-                <span>{property.seating_capacity} Seats</span>
+                <span>{property.room_capacity} Seats</span>
             </div>
             <div className='flex items-center text-sm text-muted-foreground'>
                 <img src={assets.fuel_icon} alt="" className='h-4 mr-2' />

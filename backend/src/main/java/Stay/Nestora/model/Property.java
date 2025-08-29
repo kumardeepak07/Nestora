@@ -39,6 +39,7 @@ public class Property {
     private Address address;
 
     @ManyToOne
+    @JoinColumn(name = "owner_id", nullable = false)
     private User owner;
 
     public String getTitle() {

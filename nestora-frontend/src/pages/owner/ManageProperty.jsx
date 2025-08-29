@@ -8,12 +8,12 @@ const ManageProperty = () => {
 
   const {isOwner, axios, currency} = useAppContext()
   
-  const [property, setProperty] = useState([])
+  const [properties, setProperty] = useState([])
   const fetchOwnerCars = async ()=>{
     try {
-      const {data} = await axios.get('/api/owner/cars')
+      const {data} = await axios.get('/api/properties/my-properties')
       if(data.success){
-        setProperty(data.property)
+        setProperty(data.data)
       }else{
         toast.error(data.message)
       }
@@ -22,9 +22,9 @@ const ManageProperty = () => {
     }
   }
 
-const toggleAvailability = async (carId)=>{
+const toggleAvailability = async (propertyId, availablity)=>{
     try {
-      const {data} = await axios.post('/api/owner/toggle-car', {carId})
+      const {data} = await axios.post('/api/properties/update-availablity',{"id" : propertyId, "available" : availablity})
       if(data.success){
         toast.success(data.message)
         fetchOwnerCars()
@@ -73,24 +73,28 @@ const toggleAvailability = async (carId)=>{
             </tr>
           </thead>
           <tbody>
-            {property.map((property, index)=> (
+            {properties.map((property, index)=> (
               <tr key={index} className='border-t border-borderColor'>
                 <td className='p-3 flex items-center gap-3'>
                   <img src={property.image} alt='' className='h-12 w-12 aspect-square rounded-md object-cover' />
                   <div className='max-md:hidden'>
-                    <p className='font-medium'>{property.brand} {property.model}</p>
-                    <p className='text-xs text-gray-500'>{property.seating_capacity} {property.transmission}</p>
+                    <p className='font-medium'>{property.title} {property.property_type}</p>
+                    <p className='text-xs text-gray-500'>{property.property_type} {property.property_type}</p>
                   </div>
                 </td>
                 <td className='p-3 max-md:hidden'>{property.category}</td>
-                <td className='p-3'>{currency} {property.pricePerDay}/day</td>
+                <td className='p-3'>{currency} {property.daily_price}/day</td>
                 <td className='p-3 max-md:hidden'>
-                  <span className={`px-3 py-1 rounded-full text-xs ${property.isAvaliable ? 'bg-green-100 text-green-500' : 'bg-red-100 text-red-500'}`}>
-                    {property.isAvaliable ? 'Available' : 'Unavailable'}
-                  </span>
+                  <span
+                  className={`px-3 py-1 rounded-full text-xs ${
+                    property.available ? 'bg-green-100 text-green-500' : 'bg-red-100 text-red-500'
+                  }`}
+                >
+                  {property.available ? 'Available' : 'Unavailable'}
+                </span>
                 </td>
                 <td className='flex items-center p-3'>
-                  <img onClick={()=> toggleAvailability(property._id)} src={property.isAvaliable ? assets.eye_close_icon : assets.eye_icon} alt='' className='cursor-pointer' />
+                  <img onClick={()=> toggleAvailability(property._id, property.available ? false : true)} src={property.avaliable ? assets.eye_close_icon : assets.eye_icon} alt='' className='cursor-pointer' />
                   <img onClick={()=> deleteCar(property._id)} src={assets.delete_icon} alt='' className='cursor-pointer' />
                 </td>
               </tr>

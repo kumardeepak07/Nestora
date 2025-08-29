@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
-import { assets, dummyCarData } from '../assets/assets';
+import { assets, dummyPropertyData } from '../assets/assets';
 import Loader from '../components/Loader';
 
 const PropertyDetails = () => {
@@ -19,7 +19,7 @@ const PropertyDetails = () => {
     // Redirect or show success message as needed
   }
   useEffect(() => {
-    setProperty(dummyCarData.find((property) => property._id === id));
+    setProperty(dummyPropertyData.find((property) => property._id === id));
   }, [id])
 
   return property ? (

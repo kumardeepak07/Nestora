@@ -1,13 +1,11 @@
 import React from 'react'
 import Title from './Title'
-import { assets} from '../assets/assets'
-import { useAppContext } from '../context/AppContext'
+import { assets, dummyPropertyData} from '../assets/assets'
 import PropertyCard from './PropertyCard'
 import { useNavigate } from 'react-router-dom'
 
 const FeaturedSection = () => {
   const navigate = useNavigate();
-  const {cars} = useAppContext()
   return (
     <div className='flex flex-col items-center py-24 px-6 md:px-16 lg:px-24 xl:px-32'>
       <div>
@@ -15,7 +13,7 @@ const FeaturedSection = () => {
       </div>
       <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-18'>
         {
-            cars.slice(0,6).map((property) => (
+            dummyPropertyData.slice(0,6).map((property) => (
                 <div key={property.id}>
                     <PropertyCard property={property} />
                 </div>

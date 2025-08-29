@@ -7,11 +7,11 @@ import menu_icon from "./menu_icon.svg";
 import search_icon from "./search_icon.svg"
 import close_icon from "./close_icon.svg"
 import users_icon from "./users_icon.svg"
-import car_icon from "./car_icon.svg"
+import car_icon from "./Home_Icon.png"
 import location_icon from "./location_icon.svg"
 import fuel_icon from "./fuel_icon.svg"
 import addIcon from "./addIcon.svg"
-import carIcon from "./carIcon.svg"
+import carIcon from "./Home_Icon.png"
 import carIconColored from "./carIconColored.svg"
 import dashboardIcon from "./dashboardIcon.svg"
 import dashboardIconColored from "./dashboardIconColored.svg"
@@ -98,8 +98,8 @@ export const menuLinks = [
 
 export const ownerMenuLinks = [
     { name: "Dashboard", path: "/owner", icon: dashboardIcon, coloredIcon: dashboardIconColored },
-    { name: "Add car", path: "/owner/add-property", icon: addIcon, coloredIcon: addIconColored },
-    { name: "Manage Cars", path: "/owner/manage-property", icon: carIcon, coloredIcon: carIconColored },
+    { name: "Add Property", path: "/owner/add-property", icon: addIcon, coloredIcon: addIconColored },
+    { name: "Manage Properties", path: "/owner/manage-property", icon: carIcon, coloredIcon: carIconColored },
     { name: "Manage Bookings", path: "/owner/manage-bookings", icon: listIcon, coloredIcon: listIconColored },
 ]
 
@@ -135,7 +135,7 @@ export const dummyPropertyData = [
         "_id": "67ff5bc069c03d4e45f30b78",
         "title": "ITC Maurya",
         "description": "Luxe Property",
-        "image": car_image1,
+        "image": car_image2,
         "property_type" : "Luxury",
         "currency": "",
         "daily_price": 10000,

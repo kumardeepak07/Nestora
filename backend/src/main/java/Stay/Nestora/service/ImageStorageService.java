@@ -23,7 +23,7 @@ public class ImageStorageService {
             FileCreateRequest request = new FileCreateRequest(
                     base64File, fileName
             );
-            request.setFolder("/properties"); // Optional folder
+            request.setFolder("/" + folderName); // Optional folder
 
             Result result = imageKit.upload(request);
 

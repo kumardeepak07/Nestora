@@ -1,5 +1,6 @@
 package Stay.Nestora.jwt;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
@@ -30,12 +31,19 @@ public class JwtService {
     }
 
     public String extractUsername(String token) {
-        return Jwts.parserBuilder()
-                .setSigningKey(getSignInKey())
-                .build()
-                .parseClaimsJws(token)
-                .getBody()
-                .getSubject();
+        try{
+            Claims claims = Jwts.parserBuilder()
+                    .setAllowedClockSkewSeconds(60)
+                    .setSigningKey(getSignInKey())
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
+            return claims.getSubject();
+        }
+        catch (Exception e){
+            System.out.println("JWT expired at: " + e.getMessage());
+        }
+        return null;
     }
 
     public boolean isValid(String token, UserDetails userDetails) {
