@@ -23,6 +23,9 @@ public class UserService {
             return new ApiResponse<User>(false, null, "User is not authorized");
 
         }
+        if(authToken.startsWith("Bearer ")) {
+            authToken = authToken.substring(7);
+        }
         String username;
         try {
             username = jwtService.extractUsername(authToken);

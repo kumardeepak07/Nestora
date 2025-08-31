@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -70,7 +71,7 @@ public class PropertyController {
 
     //READ ALL
     @GetMapping
-    public ResponseEntity<PageResponse<Property>> getAllProperties(Pageable pageable) {
+    public ApiResponse<?> getAllProperties(Pageable pageable) {
         Page<Property> page = propertyRepository.findAll(pageable);
 
         PageResponse<Property> response = new PageResponse<>(
@@ -82,7 +83,7 @@ public class PropertyController {
                 page.isLast()
         );
 
-        return ResponseEntity.ok(response);
+        return new ApiResponse<>(true, response, "Property");
     }
 
     @GetMapping("/my-properties")
@@ -121,21 +122,23 @@ public class PropertyController {
     }
 
     // DELETE
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteProperty(@PathVariable Long id) {
+    @DeleteMapping("/delete-property/{id}")
+    public ApiResponse<?> deleteProperty(@PathVariable Long id) {
         if (propertyRepository.existsById(id)) {
             propertyRepository.deleteById(id);
-            return ResponseEntity.noContent().build();
+            return new ApiResponse<>(true,true,"Property Deleted");
         }
-        return ResponseEntity.notFound().build();
+        return new ApiResponse<>(true,false,"Property Deletion Failed");
     }
     @PostMapping("/update-availablity")
-    public ApiResponse<?> updateAvailable(@RequestParam Long id, @RequestParam boolean available) {
-        //oolean available = property.isAvailable() ? false : true;
+    public ApiResponse<?> updateAvailable(@RequestBody Map<String, Object> request) {
+        Long id = Long.valueOf(request.get("propertyId").toString());
+        boolean available = Boolean.parseBoolean(request.get("availablity").toString());
+
         Property updateAvailabilityproperty = propertyService.updateAvailability(id, available);
         if (updateAvailabilityproperty != null) {
-            return new ApiResponse<>(true, updateAvailabilityproperty,"Property Availablity Updated");
+            return new ApiResponse<>(true, updateAvailabilityproperty, "Property Availability Updated");
         }
-        return new ApiResponse<>(false,null,"Updation Failed");
+        return new ApiResponse<>(false, null, "Updation Failed");
     }
 }

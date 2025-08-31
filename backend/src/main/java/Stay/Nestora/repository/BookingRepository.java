@@ -14,6 +14,7 @@ import java.util.List;
 public interface BookingRepository extends JpaRepository<Booking,Long> {
     List<Booking> findByUserId(Long userId);
     List<Booking> findByUser(User user);
+    List<Booking> findByPropertyOwnerId(Long ownerId);
 
     @Query("SELECT b from Booking b where b.property.id = :propertyId and b.checkOutDate > :checkIn and b.checkInDate < :checkOut")
     List<Booking> findByPropertyIdAndCheckOutDateAfterAndCheckInDateBefore(
@@ -21,4 +22,10 @@ public interface BookingRepository extends JpaRepository<Booking,Long> {
             @Param("checkIn") LocalDate checkIn,
             @Param("checkOut") LocalDate checkOut
             );
+
+    List<Booking> findByPropertyOwnerIdAndStatus(Long ownerId, String status);
+
+    List<Booking> findTop5ByPropertyOwnerEmailOrderByCheckInDateDesc(String email);
+
+
 }

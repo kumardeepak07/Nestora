@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { assets, dummyDashboardData } from '../../assets/assets'
+import { assets } from '../../assets/assets'
 import Title from '../../components/owner/Title'
 import { useAppContext } from '../../context/AppContext'
 import toast from 'react-hot-toast'
@@ -10,26 +10,30 @@ const Dashboard = () => {
   
 
   const [data, setData] = useState({
-    totalCars: 0,
+    totalProperties: 0,
     totalBookings: 0,
     pendingBookings: 0,
-    completedBookings: 0,
+    confirmedBookings: 0,
+    cancelledBookings: 0,
+    totalRevenue:0,
+    totalRevenuePerMonth:0,
     recentBookings: [],
-    monthlyRevenue: 0
+    allBookings: [],
   })
 
   const dashboardCard = [
-    {title: 'Total Cars', value: data.totalCars, icon: assets.carIconColored},
+    {title: 'Total Properties', value: data.totalProperties, icon: assets.carIconColored},
     {title: 'Total Bookings', value: data.totalBookings, icon: assets.listIconColored},
     {title: 'Pending', value: data.pendingBookings, icon: assets.cautionIconColored},
-    {title: 'Confirmed', value: data.totalCars, icon: assets.listIconColored},
+    {title: 'Confirmed', value: data.confirmedBookings, icon: assets.listIconColored},
+    {title: 'Cancelled', value: data.cancelledBookings, icon: assets.listIconColored},
   ]  
  
    const fetchDashboardData = async ()=>{
       try {
-        const {data} = await axios.get('/api/owner/dashboard')
+        const {data} = await axios.get('/api/bookings/owner-dashboard')
         if(data.success){
-          setData(data.dashboardData)
+          setData(data.data)
         }else{
           toast.error(data.message)
         }
@@ -73,8 +77,8 @@ const Dashboard = () => {
                   <img src={assets.listIconColored} alt='' className='h-5 w-5' />
                 </div>
                 <div>
-                  <p>{booking.car.brand} {booking.car.model}</p>
-                  <p className='text-sm text-gray-500'>{booking.createdAt.split('T')[0]}</p>
+                  <p>{booking.property.title} {booking.property.title}</p>
+                  <p className='text-sm text-gray-500'>{}</p>
                 </div>
               </div>
               <div className='flex items-center gap-2 font-medium'>

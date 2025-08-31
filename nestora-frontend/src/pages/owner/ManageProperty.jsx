@@ -9,7 +9,7 @@ const ManageProperty = () => {
   const {isOwner, axios, currency} = useAppContext()
   
   const [properties, setProperty] = useState([])
-  const fetchOwnerCars = async ()=>{
+  const fetchOwnerProperties = async ()=>{
     try {
       const {data} = await axios.get('/api/properties/my-properties')
       if(data.success){
@@ -24,10 +24,10 @@ const ManageProperty = () => {
 
 const toggleAvailability = async (propertyId, availablity)=>{
     try {
-      const {data} = await axios.post('/api/properties/update-availablity',{"id" : propertyId, "available" : availablity})
+      const {data} = await axios.post('/api/properties/update-availablity',{propertyId, availablity})
       if(data.success){
         toast.success(data.message)
-        fetchOwnerCars()
+        fetchOwnerProperties()
       }else{
         toast.error(data.message)
       }
@@ -36,15 +36,15 @@ const toggleAvailability = async (propertyId, availablity)=>{
     }
   }
 
-  const deleteCar = async (carId)=>{
+  const deleteProperty = async (propertyId)=>{
     try {
 
       const confirm = window.confirm('Are you sure you want to delete this car')
       if(!confirm) return null
-      const {data} = await axios.post('/api/owner/delete-car', {carId})
+      const {data} = await axios.delete(`/api/properties/delete-property/${propertyId}`)
       if(data.success){
         toast.success(data.message)
-        fetchOwnerCars()
+        fetchOwnerProperties()
       }else{
         toast.error(data.message)
       }
@@ -54,7 +54,7 @@ const toggleAvailability = async (propertyId, availablity)=>{
   }
 
   useEffect(()=> {
-    isOwner && fetchOwnerCars()
+    isOwner && fetchOwnerProperties()
   },[isOwner])
 
   return (
@@ -95,7 +95,7 @@ const toggleAvailability = async (propertyId, availablity)=>{
                 </td>
                 <td className='flex items-center p-3'>
                   <img onClick={()=> toggleAvailability(property._id, property.available ? false : true)} src={property.avaliable ? assets.eye_close_icon : assets.eye_icon} alt='' className='cursor-pointer' />
-                  <img onClick={()=> deleteCar(property._id)} src={assets.delete_icon} alt='' className='cursor-pointer' />
+                  <img onClick={()=> deleteProperty(property._id)} src={assets.delete_icon} alt='' className='cursor-pointer' />
                 </td>
               </tr>
             ))}

@@ -1,12 +1,16 @@
 package Stay.Nestora.controller;
 
 
+import Stay.Nestora.dto.ApiResponse;
 import Stay.Nestora.dto.BookingRequest;
+import Stay.Nestora.dto.DashboardResponse;
 import Stay.Nestora.model.Booking;
 import Stay.Nestora.model.User;
 import Stay.Nestora.repository.BookingRepository;
 import Stay.Nestora.repository.UserRepository;
 import Stay.Nestora.service.BookingService;
+import Stay.Nestora.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -29,6 +33,7 @@ public class BookingController {
     private final BookingService bookingService;
     private final UserRepository userRepository;
     private final BookingRepository bookingRepository;
+    private final UserService userService;
 
     @PostMapping("/upload-proof")
     public ResponseEntity<String> uploadProof(@RequestParam("file") MultipartFile file) throws IOException {
@@ -50,10 +55,44 @@ public class BookingController {
     public ResponseEntity<List<Booking>> getAllBookings() {
         return ResponseEntity.ok(bookingRepository.findAll());
     }
-    @PostMapping("/book")
+
+    @PostMapping("/book-property")
     public ResponseEntity<Booking> createBooking(@RequestBody BookingRequest request) {
         Booking booking = bookingService.bookProperty(request);
         return ResponseEntity.ok(booking);
     }
 
+    @GetMapping("/owner-bookings")
+    public ApiResponse<?> getOwnerBookings(HttpServletRequest request) {
+        String authHeader = request.getHeader("Authorization");
+        ApiResponse<User> apiResponse = userService.checkUserAuthentication(authHeader);
+
+        if (!apiResponse.isSuccess()) {
+            return new ApiResponse<>(false,apiResponse.getMessage(),null);
+        }
+
+        User owner = apiResponse.getData();
+
+        List<Booking> bookings = bookingService.getBookingsByOwner(owner.getId());
+        return new ApiResponse<>(true, bookings, "Owner's property bookings fetched successfully");
+    }
+
+    @GetMapping("/owner-dashboard")
+    public ApiResponse<?> getOwnerDashboard(HttpServletRequest request) {
+        String authHeader = request.getHeader("Authorization");
+        ApiResponse<User> apiResponse = userService.checkUserAuthentication(authHeader);
+
+        if (!apiResponse.isSuccess()) {
+            return new ApiResponse<>(false,apiResponse.getMessage(),null);
+        }
+        User owner = apiResponse.getData();
+        DashboardResponse dashboardResponse = bookingService.getOwnerDashboardData(owner.getId(), owner.getEmail());
+        return new ApiResponse<>(true, dashboardResponse, "Owner's dashboard fetched successfully");
+    }
+    @PostMapping("/change-status")
+    public ApiResponse<?> changeBookingStatus(@RequestParam Long id, @RequestParam String status) {
+        Booking updatedBooking = bookingService.updateBookingStatus(id, status);
+
+        return new ApiResponse<>(true, updatedBooking, "Booking status updated successfully");
+    }
 }

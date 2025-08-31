@@ -1,26 +1,38 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
-import { assets, dummyPropertyData } from '../assets/assets';
+import { assets } from '../assets/assets';
 import Loader from '../components/Loader';
+import { useAppContext } from '../context/AppContext';
+import axios from 'axios';
+import toast from 'react-hot-toast';
+// eslint-disable-next-line no-unused-vars
+import { motion } from 'motion/react';
 
 const PropertyDetails = () => {
   const {id} = useParams(); 
+  const {properties, checkInDate, setCheckIndate, checkOutDate, setCheckOutdate} = useAppContext();
+  console.log("Properties in context:", properties); // Debugging line
   const navigate = useNavigate();
   const [property, setProperty] = useState(null);
   const currency = import.meta.env.VITE_CURRENCY;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle booking logic here
-    // For now, just log the selected dates
-    const pickupDate = e.target['pickup-date'].value;
-    const returnDate = e.target['return-date'].value;
-    console.log(`Booking property ${property._id} from ${pickupDate} to ${returnDate}`);
-    // Redirect or show success message as needed
+    try {
+      const {data} = await axios.post('/api/bookings', {property: id, checkInDate, checkOutDate});
+      if(data.success){
+        navigate('/my-bookings');
+      } else {
+        alert(data.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
   }
   useEffect(() => {
-    setProperty(dummyPropertyData.find((property) => property._id === id));
-  }, [id])
+    setProperty(properties.find(prop => (prop._id).toString() === id.toString()));
+    console.log("Selected property:", property); // Debugging line
+  }, [properties, id])
 
   return property ? (
     <div>
@@ -30,10 +42,22 @@ const PropertyDetails = () => {
           Back to Properties
         </button>
         <div className='grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12'>
-          <div className='lg:col-span-2'>
-            <img src={property.image} alt='' className='w-full h-auto md:mask-x-to-fuchsia-100
+          <motion.div 
+          initial={{opacity: 0, y: 30}}
+          whileInView={{opacity: 1, y: 0}}
+          transition={{duration: 0.6}}
+          className='lg:col-span-2'>
+            <motion.img 
+            initial={{scale: 0.98, opacity: 0}}
+            animate={{scale: 1, opacity: 1}}
+            transition={{duration: 0.5}}
+            src={property.image} alt='' className='w-full h-auto md:mask-x-to-fuchsia-100
             object-cover rounded-xl mb-6 shadow-md' />
-            <div className='space-y-6'>
+            <motion.div 
+            initial={{opacity: 0}}
+            animate={{opacity: 1}}
+            transition={{delay: 0.2,duration: 0.5}}
+            className='space-y-6'>
               <div>
                 <h1 className='text-3xl font-bold'>{property.brand}{property.model}</h1>
                 <p className='text-gray-50 text-lg'>{property.category} . {property.year}</p>
@@ -47,10 +71,15 @@ const PropertyDetails = () => {
                   {icon: assets.car_icon, text: property.transmission},
                   {icon: assets.location_icon, text: property.location},
                 ].map(({icon, text})=> (
-                  <div key={text} className='flex flex-col items-center bg-light p-4 rounded-lg'>
+                  <motion.div 
+                  initial={{opacity: 0, y: 10}}
+                  animate={{opacity: 1, y: 0}}
+                  transition={{duration: 0.4}}
+                  
+                  key={text} className='flex flex-col items-center bg-light p-4 rounded-lg'>
                     <img src={icon} alt='' className='h-5 mb-2' />
                     {text}
-                  </div>
+                  </motion.div>
                 ))}
 
               </div>
@@ -72,24 +101,28 @@ const PropertyDetails = () => {
                   }
                 </ul>
               </div>
-            </div>
-          </div>
-          <form onSubmit={handleSubmit()} className='shadow-lg h-max sticky top-18 rounded-xl p-6 space-y-6 text-gray-500'>
+            </motion.div>
+          </motion.div>
+          <motion.form 
+          initial={{opacity: 0, y: 30}}
+          animate={{opacity: 1, y: 0}}
+          transition={{delay: 0.3, duration: 0.6}}
+          onSubmit={handleSubmit} className='shadow-lg h-max sticky top-18 rounded-xl p-6 space-y-6 text-gray-500'>
               <p className='flex items-center justify-between text-2xl text-gray-800 font-semibold'>{currency} {property.pricePerDay}<span className='text-base text-gray-400 font-normal'> per day</span></p>
               <hr className='border-borderColor my-6' />
               <div className='flex flex-col gap-2'>
-                <label htmlFor='pickupDate'>Check-In Date</label>
+                <label value={checkInDate} onChange={(e) => setCheckIndate(e.target.value)} htmlFor='checkIn-Date'>Check-In Date</label>
                 <input type='date' className='border border-borderColor px-3 py-2 rounded-lg' required id='pickup-date' min={new Date().toISOString().split('T')[0]} />
               </div>
               <div className='flex flex-col gap-2'>
-                <label htmlFor='pickupDate'>Check-Out Date</label>
-                <input type='date' className='border border-borderColor px-3 py-2 rounded-lg' required id='return-date' />
+                <label htmlFor='checkOut-Date'>Check-Out Date</label>
+                <input value={checkOutDate} onChange={(e) => setCheckOutdate(e.target.value)} type='date' className='border border-borderColor px-3 py-2 rounded-lg' required id='return-date' />
               </div>
               <button className='cursor-pointer w-full bg-primary hover:bg-primary-dull transition-all py-3 font-medium text-white rounded-xl'>
                 Book Now
               </button>
               <p className='text-center text-sm'>No credit card required to reserve</p>
-          </form>
+          </motion.form>
 
         </div>
       </div>

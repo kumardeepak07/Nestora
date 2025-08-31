@@ -16,8 +16,8 @@ export const AppProvider = ({ children })=>{
     const [user, setUser] = useState(null);
     const [isOwner, setIsOwner] = useState(false);
     const [showLogin, setShowLogin] = useState(false);
-    const [pickupDate, setPickupDate] = useState('');
-    const [returnDate, setReturnDate] = useState('');
+    const [checkInDate, setCheckInDate] = useState('');
+    const [checkOutDate, setCheckOutDate] = useState('');
     const [properties, setProperties] = useState([]);
 
     const fetchUser = async ()=> {
@@ -36,12 +36,17 @@ export const AppProvider = ({ children })=>{
 
     const fetchProperties = async () => {
         try {
-            const {data} = await axios.get('/api/properties')
-            data.success ? setProperties(data.content) : toast.error(data.message)
+            const { data } = await axios.get('/api/properties');
+            if (data.success) {
+            setProperties(data.data.content);
+            console.log("Fetched properties:", data.data.content);  // ✅ pick content from data.data
+            } else {
+            toast.error(data.message);
+            }
         } catch (error) {
-            toast.error(error.message)
+            toast.error(error.message);
         }
-    }
+        };
 
     const logout = ()=> {
         localStorage.removeItem('token')
@@ -65,13 +70,15 @@ export const AppProvider = ({ children })=>{
         if(token){
             axios.defaults.headers.common['Authorization'] = `${token}`
             fetchUser()
+            fetchProperties()
         }
     },[token])
 
 
     const value = {
         navigate, currency, axios, user, setUser, token, setToken, isOwner, setIsOwner, fetchUser,
-        showLogin, setShowLogin, logout, fetchProperties, properties, setProperties, pickupDate, setPickupDate, returnDate, setReturnDate
+        showLogin, setShowLogin, logout, properties, setProperties, fetchProperties, checkInDate, 
+        setCheckInDate, checkOutDate, setCheckOutDate
     }
     return (
     <AppContext.Provider value={value}>

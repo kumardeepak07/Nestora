@@ -30,6 +30,8 @@ public class Booking {
     @Column(name = "address_proof")
     private String addressProofPath;
 
+    private String mode;
+
     private LocalDate checkInDate;
     private LocalDate checkOutDate;
     private String status;
