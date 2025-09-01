@@ -41,6 +41,8 @@ import car_image2 from "./villa2.jpg"
 import car_image3 from "./villa3.jpg"
 import car_image4 from "./villa4.jpg"
 import nestora_image from "./nestora-logo.svg";
+import dinner_icon from "./dinner_icon.png";
+
 
 export const cityList = ['New York', 'Los Angeles', 'Houston', 'Chicago']
 
@@ -87,7 +89,8 @@ export const assets = {
     car_image2,
     car_image3,
     car_image4,
-    nestora_image
+    nestora_image,
+    dinner_icon
 }
 
 export const menuLinks = [
