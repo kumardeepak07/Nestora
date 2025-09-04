@@ -13,7 +13,6 @@ public class DashboardResponse {
     private int confirmedBookings;
     private int cancelledBookings;
     private double totalRevenue;
-    private double totalRevenuePerMonth;
 
     private List<Booking> recentBookings;
     private List<Booking> allBookings;

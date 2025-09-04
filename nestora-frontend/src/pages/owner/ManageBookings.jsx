@@ -1,92 +1,122 @@
-import React, { useEffect, useState } from 'react'
-import Title from '../../components/owner/Title'
-import { useAppContext } from '../../context/AppContext'
-import toast from 'react-hot-toast'
+import React, { useEffect, useState } from "react";
+import Title from "../../components/owner/Title";
+import { useAppContext } from "../../context/AppContext";
+import toast from "react-hot-toast";
 
 const ManageBookings = () => {
-  const {currency, axios} = useAppContext()
-  const [bookings, setBookings] = useState([])
+  const { currency, axios } = useAppContext();
+  const [bookings, setBookings] = useState([]);
 
-  const fetchOwnerBookings = async ()=> {
+  const fetchOwnerBookings = async () => {
     try {
-      const {data} = await axios.get('/api/bookings/owner-bookings')
-      data.success ? setBookings(data.data) : toast.error(data.message)
+      const { data } = await axios.get("/api/bookings/owner-bookings");
+      data.success ? setBookings(data.data) : toast.error(data.message);
     } catch (error) {
-      toast.error(error.message)
+      toast.error(error.message);
     }
-  }
+  };
 
-  const changeBookingStatus = async (bookingId, status)=> {
+  const changeBookingStatus = async (bookingId, status) => {
     try {
-      const { data } = await axios.post(`/api/bookings/change-status?id=${bookingId}&status=${status}`);
-      if(data.success){
-        toast.success(data.message)
-        fetchOwnerBookings()
-      }else{
-        toast.error(data.error)
+      const { data } = await axios.post(
+        `/api/bookings/change-status?id=${bookingId}&status=${status}`
+      );
+      if (data.success) {
+        toast.success(data.message);
+        fetchOwnerBookings();
+      } else {
+        toast.error(data.error);
       }
-
     } catch (error) {
-      toast.error(error.message)
+      toast.error(error.message);
     }
-  }
+  };
 
-  
-  useEffect(()=>{
-    fetchOwnerBookings()
-  },[])
+  useEffect(() => {
+    fetchOwnerBookings();
+  }, []);
 
   return (
-    <div className='px-4 pt-10 md:px-10 w-full'>
-      <Title title='Manage Bookings' subTitle='Track all customer bookings, approve or cancel requets, manage booking statuses.'/>
+    <div className="px-4 pt-10 md:px-10 w-full">
+      <Title
+        title="Manage Bookings"
+        subTitle="Track all customer bookings, approve or cancel requets, manage booking statuses."
+      />
 
-      <div className='max-w-3xl w-full rounded-md overflow-hidden border border-borderColor mt-6'>
-        <table className='w-full border-collapse text-left text-sm text-gray-600'>
-          <thead className='text-gray-500'>
+      <div className="max-w-3xl w-full rounded-md overflow-hidden border border-borderColor mt-6">
+        <table className="w-full border-collapse text-left text-sm text-gray-600">
+          <thead className="text-gray-500">
             <tr>
-              <th className='p-3 font-medium'>Property</th>
-              <th className='p-3 font-medium max-md:hidden'>Date Range</th>
-              <th className='p-3 font-medium'>Total</th>
-              <th className='p-3 font-medium max-md:hidden'>Payment</th>
-              <th className='p-3 font-medium'>Actions</th>
+              <th className="p-3 font-medium">Property</th>
+              <th className="p-3 font-medium max-md:hidden">Date Range</th>
+              <th className="p-3 font-medium">Total</th>
+              <th className="p-3 font-medium max-md:hidden">Payment</th>
+              <th className="p-3 font-medium">Actions</th>
             </tr>
           </thead>
           <tbody>
-            {bookings.map((booking, index)=> (
-              <tr key={index} className='border-t border-borderColor text-gray-500'>
-                <td className='p-3 flex items-center gap-3'>
-                  <img src={booking.property.image} alt='' className='h-12 w-12 aspect-square rounded-md object-cover' />
-                  <p className='font-medium max-md:hidden'>{booking.property.title} {booking.property.title}</p>
+            {bookings.map((booking, index) => (
+              <tr
+                key={index}
+                className="border-t border-borderColor text-gray-500"
+              >
+                <td className="p-3 flex items-center gap-3">
+                  <img
+                    src={booking.property.image}
+                    alt=""
+                    className="h-12 w-12 aspect-square rounded-md object-cover"
+                  />
+                  <p className="font-medium max-md:hidden">
+                    {booking.property.title}
+                  </p>
                 </td>
-                <td className='p-3 max-md:hidden'>
-                  {booking.checkInDate.split('T')[0]} to {booking.checkOutDate.split('T')[0]}
+                <td className="p-3 max-md:hidden">
+                  {booking.checkInDate.split("T")[0]} to{" "}
+                  {booking.checkOutDate.split("T")[0]}
                 </td>
-                <td className='p-3'>
-                  {currency} {booking.property.daily_price}
+                <td className="p-3">
+                  {currency} {booking.bookingAmount}
                 </td>
-                <td className='p-3 max-md:hidden'>
-                  <span className='bg-gray-100 px-3 py-1 rounded-full text-xs'>offline</span>
+                <td className="p-3 max-md:hidden">
+                  <span className="bg-gray-100 px-3 py-1 rounded-full text-xs">
+                    offline
+                  </span>
                 </td>
-                <td className='p-3'>
-                    {booking.status === 'PENDING' || booking.status == 'CONFIRMED' || booking.status == null ? (
-                      <select onChange={e=> changeBookingStatus(booking.id, e.target.value)} value={booking.status} className='px-2 py-1.5 mt-1 text-gray-500 border border-borderColor rounded-md outline-none'>
-                        <option value='PENDING'>Pending</option>
-                        <option value='CANCELLED'>Cancelled</option>
-                        <option value='CONFIRMED'>Confirmed</option>
-                        <option value='COMPLETE'>Complete</option>
-                      </select>
-                    ): (
-                      <span className={`px-3 py-1 rounded-full text-xs font-semibold ${booking.status === 'COMPLETE' ? 'bg-green-100 text-green-500' : 'bg-red-100 text-red-500'}`}>{booking.status}</span>
-                    )}
-                  </td>
+                <td className="p-3">
+                  {booking.status === "PENDING" ||
+                  booking.status == "CONFIRMED" ||
+                  booking.status == null ? (
+                    <select
+                      onChange={(e) =>
+                        changeBookingStatus(booking.id, e.target.value)
+                      }
+                      value={booking.status}
+                      className="px-2 py-1.5 mt-1 text-gray-500 border border-borderColor rounded-md outline-none"
+                    >
+                      <option value="PENDING">Pending</option>
+                      <option value="CANCELLED">Cancelled</option>
+                      <option value="CONFIRMED">Confirmed</option>
+                      <option value="COMPLETE">Complete</option>
+                    </select>
+                  ) : (
+                    <span
+                      className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                        booking.status === "COMPLETE"
+                          ? "bg-green-100 text-green-500"
+                          : "bg-red-100 text-red-500"
+                      }`}
+                    >
+                      {booking.status}
+                    </span>
+                  )}
+                </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
-      
     </div>
-  )
-}
+  );
+};
 
-export default ManageBookings
+export default ManageBookings;

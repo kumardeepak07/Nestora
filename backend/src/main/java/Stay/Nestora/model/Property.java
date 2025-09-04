@@ -18,7 +18,10 @@ public class Property {
     private Long _id;
 
     private String title;
+
+    @Column(name = "description", columnDefinition = "VARCHAR(65535)")
     private String description;
+
     private String image;
     private String property_type;
     private String currency;
@@ -32,6 +35,7 @@ public class Property {
     private boolean isGymAvailable;
     private String hospital_distance;
     private String airport_distance;
+    private boolean isParkingAvailable;
 
 
     @ManyToOne(cascade = CascadeType.ALL)
@@ -50,5 +54,32 @@ public class Property {
     }
     public Double getMonthly_price() {
         return monthly_price;
+    }
+    public boolean isSwimmingPoolAvailable() {
+        return isSwimmingPoolAvailable;
+    }
+    public void setSwimmingPoolAvailable(boolean swimmingPoolAvailable) {
+        this.isSwimmingPoolAvailable = swimmingPoolAvailable;
+    }
+
+    public boolean isGymAvailable() {
+        return isGymAvailable;
+    }
+    public void setGymAvailable(boolean gymAvailable) {
+        this.isGymAvailable = gymAvailable;
+    }
+
+    public boolean isParkingAvailable() {
+        return isParkingAvailable;
+    }
+    public void setParkingAvailable(boolean parkingAvailable) {
+        this.isParkingAvailable = parkingAvailable;
+    }
+
+    public boolean isAvailable() {
+        return isAvailable;
+    }
+    public void setAvailable(boolean available) {
+        isAvailable = available;
     }
 }

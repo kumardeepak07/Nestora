@@ -31,10 +31,19 @@ public class BookingService {
     public Booking bookProperty(BookingRequest bookingRequest) {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userRepository.findByEmail(email).orElseThrow();
-        Property property = propertyRepository.findById(bookingRequest.getProperty().get_id()).orElseThrow();
+        Property property = propertyRepository.findById(bookingRequest.getPropertyId()).orElseThrow();
 
-        if (isBookingConflict(property.get_id(), bookingRequest.getCheckInDate(), bookingRequest.getCheckOutDate())) {
-            throw new IllegalStateException("Booking conflict: Property is already booked for selected dates.");
+        long days = 0; double totalRoomsRequired = 0;
+        if (bookingRequest.getCheckInDate() != null &&
+                bookingRequest.getCheckOutDate() != null && bookingRequest.getGuests() != 0) {
+            days = ChronoUnit.DAYS.between(bookingRequest.getCheckInDate(), bookingRequest.getCheckOutDate());
+            totalRoomsRequired = Math.ceil((double) bookingRequest.getGuests()/2);
+        }
+        if(days == 0){
+            return null;
+        }
+        if(property.getTotal_rooms_available() < totalRoomsRequired){
+            return null;
         }
 
         Double monthlyPrice = property.getMonthly_price();
@@ -43,28 +52,33 @@ public class BookingService {
         double price = "MONTHLY".equals(bookingRequest.getMode())
                 ? (monthlyPrice != null ? monthlyPrice : 0.0)
                 : (dailyPrice != null ? dailyPrice : 0.0);
-        if (!paymentService.processPayment(bookingRequest.getMode(), price)) {
-            throw new RuntimeException("Payment failed");
+        if (bookingRequest.getCheckInDate() != null &&
+                bookingRequest.getCheckOutDate() != null && bookingRequest.getGuests() != 0) {
+            price = price * totalRoomsRequired * days;
+        }
+        if (price > 0.0) {
+            price += (price / 100) * 18;
+            price = Math.round(price);
         }
 
         Booking booking = Booking.builder()
+                .fullName(bookingRequest.getFullName())
+                .email(bookingRequest.getEmail())
+                .mobileNumber(bookingRequest.getMobileNumber())
+                .guests(bookingRequest.getGuests())
+                .mode(bookingRequest.getMode())
                 .checkInDate(bookingRequest.getCheckInDate())
                 .checkOutDate(bookingRequest.getCheckOutDate())
                 .property(property)
+                .bookingAmount(price)
+                .guests(bookingRequest.getGuests())
+                .status(bookingRequest.getStatus())
+                .createdOn(LocalDate.now())
                 .user(user)
                 .build();
         Booking saved = bookingRepository.save(booking);
 
-        emailService.sendBookingConfirmation(booking.getUser().getEmail(),
-                booking.getUser().getName(),
-                booking.getProperty().getTitle());
-
         return saved;
-    }
-    public boolean isBookingConflict(Long propertyId, LocalDate checkInDate, LocalDate checkOutDate) {
-        List<Booking> existingBookings = bookingRepository
-                .findByPropertyIdAndCheckOutDateAfterAndCheckInDateBefore(propertyId, checkInDate, checkOutDate);
-        return !existingBookings.isEmpty();
     }
 
     public List<Booking> getBookingsByOwner(Long ownerId) {
@@ -88,47 +102,19 @@ public class BookingService {
         List<Booking> cancelledBookings = getOwnerBookingsByStatus(ownerId, "PENDING");
         dashboardResponse.setCancelledBookings(cancelledBookings.size());
 
-        Map<String, Double> revenue = calculateRevenue(bookingsByOwner,null);
-        dashboardResponse.setTotalRevenue(revenue.get("totalRevenue"));
-        dashboardResponse.setTotalRevenuePerMonth(revenue.get("monthlyRevenue"));
-
+        double revenue = calculateRevenue(bookingsByOwner);
+        dashboardResponse.setTotalRevenue(revenue);
         return dashboardResponse;
     }
-    public Map<String, Double> calculateRevenue(List<Booking> bookings, YearMonth month) {
-        if(month == null) {
-            month = YearMonth.now();
-        }
+    public double calculateRevenue(List<Booking> bookings) {
 
-        double monthlyRevenue = 0;
         double totalRevenue = 0;
         for (Booking booking : bookings) {
-            double bookingRevenue = calculateBookingRevenue(booking);
-            totalRevenue += bookingRevenue;
-
-            if(isBookingInMonth(booking, month)) {
-                monthlyRevenue += bookingRevenue;
+            if(booking.getStatus().equals("CONFIRMED") ||  booking.getStatus().equals("COMPLETED")) {
+                totalRevenue +=  booking.getBookingAmount();
             }
         }
-        Map<String, Double> revenue = new HashMap<>();
-        revenue.put("monthlyRevenue", monthlyRevenue);
-        revenue.put("totalRevenue", totalRevenue);
-        return revenue;
-    }
-    public boolean isBookingInMonth(Booking booking, YearMonth month) {
-        return (booking.getCheckInDate() != null &&
-                YearMonth.from(booking.getCheckInDate()).equals(month) ||
-                (YearMonth.from(booking.getCheckOutDate()).equals(month)));
-    }
-    public double calculateBookingRevenue(Booking booking) {
-        Property property = booking.getProperty();
-
-        if("DAILY".equalsIgnoreCase(booking.getMode())){
-            long days = ChronoUnit.DAYS.between(booking.getCheckInDate(), booking.getCheckOutDate());
-            return days * property.getDaily_price();
-        }else if("MONTHLY".equalsIgnoreCase(booking.getMode())){
-            return property.getMonthly_price();
-        }
-        return 0.0;
+        return totalRevenue;
     }
 
     public Booking updateBookingStatus(Long bookingId, String status) {

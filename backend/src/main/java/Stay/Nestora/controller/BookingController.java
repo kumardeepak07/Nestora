@@ -57,9 +57,12 @@ public class BookingController {
     }
 
     @PostMapping("/book-property")
-    public ResponseEntity<Booking> createBooking(@RequestBody BookingRequest request) {
+    public ApiResponse<?> createBooking(@RequestBody BookingRequest request) {
         Booking booking = bookingService.bookProperty(request);
-        return ResponseEntity.ok(booking);
+        if(booking != null) {
+            return new ApiResponse<>(true, booking, "Booking has been created successfully");
+        }
+        return new ApiResponse<>(false, null, "Rooms not Available");
     }
 
     @GetMapping("/owner-bookings")
@@ -94,5 +97,11 @@ public class BookingController {
         Booking updatedBooking = bookingService.updateBookingStatus(id, status);
 
         return new ApiResponse<>(true, updatedBooking, "Booking status updated successfully");
+    }
+
+    @GetMapping("/user")
+    public ApiResponse<?> getUserBooking(@RequestParam Long id){
+        List<Booking> bookings = bookingRepository.findByUser_Id(id);
+        return new ApiResponse<>(true, bookings, "User's booking fetched successfully");
     }
 }

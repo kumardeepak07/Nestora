@@ -7,6 +7,318 @@ import MultiSelect from "../../components/MultiSelect";
 // eslint-disable-next-line no-unused-vars
 import { motion } from "motion/react";
 
+const cities = [
+  "Mumbai",
+  "Delhi",
+  "Bengaluru",
+  "Hyderabad",
+  "Ahmedabad",
+  "Chennai",
+  "Kolkata",
+  "Surat",
+  "Pune",
+  "Jaipur",
+  "Lucknow",
+  "Kanpur",
+  "Nagpur",
+  "Indore",
+  "Thane",
+  "Bhopal",
+  "Visakhapatnam",
+  "Pimpri-Chinchwad",
+  "Patna",
+  "Vadodara",
+  "Ghaziabad",
+  "Ludhiana",
+  "Agra",
+  "Nashik",
+  "Faridabad",
+  "Meerut",
+  "Rajkot",
+  "Kalyan-Dombivli",
+  "Vasai-Virar",
+  "Varanasi",
+  "Srinagar",
+  "Aurangabad",
+  "Dhanbad",
+  "Amritsar",
+  "Navi Mumbai",
+  "Prayagraj",
+  "Howrah",
+  "Ranchi",
+  "Jabalpur",
+  "Gwalior",
+  "Coimbatore",
+  "Vijayawada",
+  "Jodhpur",
+  "Madurai",
+  "Raipur",
+  "Kota",
+  "Guwahati",
+  "Chandigarh",
+  "Solapur",
+  "Hubli–Dharwad",
+  "Tiruchirappalli",
+  "Tiruppur",
+  "Moradabad",
+  "Mysore",
+  "Bareilly",
+  "Gurgaon",
+  "Aligarh",
+  "Jalandhar",
+  "Bhubaneswar",
+  "Salem",
+  "Mira-Bhayandar",
+  "Warangal",
+  "Thiruvananthapuram",
+  "Guntur",
+  "Bhiwandi",
+  "Saharanpur",
+  "Gorakhpur",
+  "Bikaner",
+  "Amravati",
+  "Noida",
+  "Jamshedpur",
+  "Bhilai",
+  "Cuttack",
+  "Firozabad",
+  "Kochi",
+  "Nellore",
+  "Bhavnagar",
+  "Dehradun",
+  "Durgapur",
+  "Asansol",
+  "Nanded",
+  "Kolhapur",
+  "Ajmer",
+  "Gulbarga",
+  "Jamnagar",
+  "Ujjain",
+  "Loni",
+  "Siliguri",
+  "Jhansi",
+  "Ulhasnagar",
+  "Jammu",
+  "Sangli-Miraj & Kupwad",
+  "Mangalore",
+  "Erode",
+  "Belgaum",
+  "Ambattur",
+  "Tirunelveli",
+  "Malegaon",
+  "Gaya",
+  "Jalgaon",
+  "Udaipur",
+  "Maheshtala",
+  "Davanagere",
+  "Kozhikode",
+  "Kurnool",
+  "Akola",
+  "Rajpur Sonarpur",
+  "Rajahmundry",
+  "Bokaro",
+  "South Dumdum",
+  "Bellary",
+  "Patiala",
+  "Gopalpur",
+  "Agartala",
+  "Bhagalpur",
+  "Muzaffarnagar",
+  "Bhatpara",
+  "Panihati",
+  "Latur",
+  "Dhule",
+  "Tirupati",
+  "Rohtak",
+  "Korba",
+  "Bhilwara",
+  "Berhampur",
+  "Muzaffarpur",
+  "Ahmednagar",
+  "Mathura",
+  "Kollam",
+  "Avadi",
+  "Kadapa",
+  "Kamarhati",
+  "Bilaspur",
+  "Shahjahanpur",
+  "Bijapur",
+  "Rampur",
+  "Shivamogga",
+  "Chandrapur",
+  "Junagadh",
+  "Thrissur",
+  "Alwar",
+  "Bardhaman",
+  "Kulti",
+  "Kakinada",
+  "Nizamabad",
+  "Parbhani",
+  "Tumkur",
+  "Khammam",
+  "Ozhukarai",
+  "Bihar Sharif",
+  "Panipat",
+  "Darbhanga",
+  "Bally",
+  "Aizawl",
+  "Dewas",
+  "Ichalkaranji",
+  "Karnal",
+  "Bathinda",
+  "Jalna",
+  "Eluru",
+  "Kirari Suleman Nagar",
+  "Barasat",
+  "Purnia",
+  "Satna",
+  "Mau",
+  "Sonipat",
+  "Farrukhabad",
+  "Sagar",
+  "Rourkela",
+  "Durg",
+  "Imphal",
+  "Ratlam",
+  "Hapur",
+  "Arrah",
+  "Karimnagar",
+  "Anantapur",
+  "Etawah",
+  "Ambarnath",
+  "North Dumdum",
+  "Bharatpur",
+  "Begusarai",
+  "New Delhi",
+  "Gandhidham",
+  "Baranagar",
+  "Tiruvottiyur",
+  "Puducherry",
+  "Sikar",
+  "Thoothukudi",
+  "Rewa",
+  "Mirzapur",
+  "Raichur",
+  "Pali",
+  "Ramagundam",
+  "Haridwar",
+  "Vijayanagaram",
+  "Katihar",
+  "Nagarcoil",
+  "Sri Ganganagar",
+  "Karawal Nagar",
+  "Mango",
+  "Thanjavur",
+  "Bulandshahr",
+  "Uluberia",
+  "Murwara",
+  "Sambhal",
+  "Singrauli",
+  "Nadiad",
+  "Secunderabad",
+  "Naihati",
+  "Yamunanagar",
+  "Bidhan Nagar",
+  "Pallavaram",
+  "Bidar",
+  "Munger",
+  "Panchkula",
+  "Burhanpur",
+  "Raurkela Industrial Township",
+  "Kharagpur",
+  "Dindigul",
+  "Gandhinagar",
+  "Hospet",
+  "Nangloi Jat",
+  "Malda",
+  "Ongole",
+  "Deoghar",
+  "Chapra",
+  "Haldia",
+  "Khandwa",
+  "Nandyal",
+  "Chittoor",
+  "Morena",
+  "Amroha",
+  "Anand",
+  "Bhind",
+  "Bhalswa Jahangir Pur",
+  "Madhyamgram",
+  "Bhiwani",
+  "Baharampur",
+  "Ambala",
+  "Morvi",
+  "Fatehpur",
+  "Rae Bareli",
+  "Khora",
+  "Bhusawal",
+  "Orai",
+  "Bahraich",
+  "Vellore",
+  "Mahesana",
+  "Sambalpur",
+  "Raiganj",
+  "Sirsa",
+  "Danapur",
+  "Serampore",
+  "Sultan Pur Majra",
+  "Guna",
+  "Jaunpur",
+  "Panvel",
+  "Shivpuri",
+  "Surendranagar Dudhrej",
+  "Unnao",
+  "Hugli-Chuchura",
+  "Badlapur",
+  "Alappuzha",
+  "Kottayam",
+  "Gadag-Betageri",
+  "Machilipatnam",
+  "Shimla",
+  "Adoni",
+  "Tenali",
+  "Proddatur",
+  "Saharsa",
+  "Hindupur",
+  "Sasaram",
+  "Hajipur",
+  "Beed",
+  "Bhimavaram",
+  "Dehri",
+  "Madanapalle",
+  "Siwan",
+  "Bettiah",
+  "Gondia",
+  "Guntakal",
+  "Srikakulam",
+  "Motihari",
+  "Dharmavaram",
+  "Satara",
+  "Barshi",
+  "Gudivada",
+  "Yavatmal",
+  "Narasaraopet",
+  "Bagaha",
+  "Achalpur",
+  "Osmanabad",
+  "Nandurbar",
+  "Miryalaguda",
+  "Tadipatri",
+  "Kishanganj",
+  "Wardha",
+  "Karaikudi",
+  "Suryapet",
+  "Jamalpur",
+  "Kavali",
+  "Tadepalligudem",
+  "Udgir",
+  "Amaravati",
+  "Buxar",
+  "Jehanabad",
+  "Hinganghat",
+  "Aurangabad (Bihar)",
+];
+
 const options = [
   { value: 0, label: "1/2/3/4/5 Bedrooms" },
   { value: 1, label: "1BHK" },
@@ -21,10 +333,7 @@ const AddProperty = () => {
   const [optionSelected, setSelected] = useState();
   const handleChange = (selected) => {
     setSelected(selected);
-    let rooms_capacity = "";
-    optionSelected.map(
-      (item) => (rooms_capacity = rooms_capacity + item.label + ",")
-    );
+    let rooms_capacity = selected.map((item) => item.label).join(",");
     setProperty({ ...property, room_capacity: rooms_capacity });
   };
 
@@ -33,16 +342,17 @@ const AddProperty = () => {
     title: "",
     description: "",
     property_type: "",
-    daily_price: 0,
-    monthly_price: 0,
+    daily_price: "",
+    monthly_price: "",
     category: "",
-    total_rooms_available: 0,
+    total_rooms_available: "",
     room_capacity: "",
-    isSwimmingPoolAvailable: false,
-    isGymAvailable: false,
-    isParkingAvailable: false,
+    swimmingPoolAvailable: false,
+    gymAvailable: false,
+    parkingAvailable: false,
     hospital_distance: "",
     airport_distance: "",
+    available: true,
     address: {
       street: "",
       city: "",
@@ -74,20 +384,22 @@ const AddProperty = () => {
       if (data.success) {
         toast.success(data.message);
         setImage(null);
+        setSelected(null);
         setProperty({
           title: "",
           description: "",
           property_type: "",
-          daily_price: 0,
-          monthly_price: 0,
+          daily_price: "",
+          monthly_price: "",
           category: "",
-          total_rooms_available: 0,
-          room_capacity: 0,
-          isSwimmingPoolAvailable: false,
-          isGymAvailable: false,
-          isParkingAvailable: false,
+          total_rooms_available: "",
+          room_capacity: "",
+          swimmingPoolAvailable: false,
+          gymAvailable: false,
+          parkingAvailable: false,
           hospital_distance: "",
           airport_distance: "",
+          available: true,
           address: {
             street: "",
             city: "",
@@ -134,6 +446,7 @@ const AddProperty = () => {
               accept="image/*"
               hidden
               onChange={(e) => setImage(e.target.files[0])}
+              required
             />
           </label>
           <p className="text-sm text-gray-500">
@@ -161,6 +474,7 @@ const AddProperty = () => {
                 setProperty({ ...property, property_type: e.target.value })
               }
               value={property.property_type}
+              required
               className="px-3 py-2 mt-1 border border-borderColor rounded-md outline-none"
             >
               <option value="">Select Property Type</option>
@@ -205,6 +519,7 @@ const AddProperty = () => {
                 setProperty({ ...property, category: e.target.value })
               }
               value={property.category}
+              required
               className="px-3 py-2 mt-1 border border-borderColor rounded-md outline-none"
             >
               <option value="">Select a category</option>
@@ -225,10 +540,11 @@ const AddProperty = () => {
               onChange={(e) =>
                 setProperty({
                   ...property,
-                  isSwimmingPoolAvailable: e.target.value === "true", // convert string to boolean
+                  swimmingPoolAvailable: e.target.value === "true", // convert string to boolean
                 })
               }
-              value={property.isSwimmingPoolAvailable ? "true" : "false"} // map boolean back to string
+              value={property.swimmingPoolAvailable ? "true" : "false"} // map boolean back to string
+              required
               className="px-3 py-2 mt-1 border border-borderColor rounded-md outline-none"
             >
               <option value="">--Select--</option>
@@ -243,10 +559,11 @@ const AddProperty = () => {
               onChange={(e) =>
                 setProperty({
                   ...property,
-                  isGymAvailable: e.target.value === "true", // convert string to boolean
+                  gymAvailable: e.target.value === "true", // convert string to boolean
                 })
               }
-              value={property.isGymAvailable ? "true" : "false"} // map boolean back to string
+              value={property.gymAvailable ? "true" : "false"} // map boolean back to string
+              required
               className="px-3 py-2 mt-1 border border-borderColor rounded-md outline-none"
             >
               <option value="">--Select--</option>
@@ -261,10 +578,11 @@ const AddProperty = () => {
               onChange={(e) =>
                 setProperty({
                   ...property,
-                  isParkingAvailable: e.target.value === "true", // convert string to boolean
+                  parkingAvailable: e.target.value === "true", // convert string to boolean
                 })
               }
-              value={property.isParkingAvailable ? "true" : "false"} // map boolean back to string
+              value={property.parkingAvailable ? "true" : "false"} // map boolean back to string
+              required
               className="px-3 py-2 mt-1 border border-borderColor rounded-md outline-none"
             >
               <option value="">--Select--</option>
@@ -323,6 +641,7 @@ const AddProperty = () => {
               value={optionSelected}
               isSelectAll={true}
               menuPlacement={"bottom"}
+              required
             />
           </div>
           <div className="flex flex-col w-full">
@@ -351,14 +670,15 @@ const AddProperty = () => {
                 })
               }
               value={property.address.city}
+              required
               className="px-3 py-2 mt-1 border border-borderColor rounded-md outline-none"
             >
               <option value="">Select a location</option>
-              <option value="Delhi">Delhi</option>
-              <option value="Mumbai">Mumbai</option>
-              <option value="Jaipur">Jaipur</option>
-              <option value="Bengluru">Bengluru</option>
-              <option value="Gurugram">Gurugram</option>
+              {cities.map((city, index) => (
+                <option key={index} value={city}>
+                  {city}
+                </option>
+              ))}
             </select>
           </div>
           <div className="flex flex-col w-full">
@@ -371,14 +691,46 @@ const AddProperty = () => {
                 })
               }
               value={property.address.state}
+              required
               className="px-3 py-2 mt-1 border border-borderColor rounded-md outline-none"
             >
               <option value="">Select a State</option>
+              <option value="Andhra Pradesh">Andhra Pradesh</option>
+              <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+              <option value="Assam">Assam</option>
               <option value="Bihar">Bihar</option>
-              <option value="Delhi">Delhi</option>
-              <option value="Maharashtra">Maharashtra</option>
+              <option value="Chhattisgarh">Chhattisgarh</option>
+              <option value="Goa">Goa</option>
+              <option value="Gujarat">Gujarat</option>
+              <option value="Haryana">Haryana</option>
+              <option value="Himachal Pradesh">Himachal Pradesh</option>
+              <option value="Jharkhand">Jharkhand</option>
               <option value="Karnataka">Karnataka</option>
-              <option value="Kerela">Kerela</option>
+              <option value="Kerala">Kerala</option>
+              <option value="Madhya Pradesh">Madhya Pradesh</option>
+              <option value="Maharashtra">Maharashtra</option>
+              <option value="Manipur">Manipur</option>
+              <option value="Meghalaya">Meghalaya</option>
+              <option value="Mizoram">Mizoram</option>
+              <option value="Nagaland">Nagaland</option>
+              <option value="Odisha">Odisha</option>
+              <option value="Punjab">Punjab</option>
+              <option value="Rajasthan">Rajasthan</option>
+              <option value="Sikkim">Sikkim</option>
+              <option value="Tamil Nadu">Tamil Nadu</option>
+              <option value="Telangana">Telangana</option>
+              <option value="Tripura">Tripura</option>
+              <option value="Uttar Pradesh">Uttar Pradesh</option>
+              <option value="Uttarakhand">Uttarakhand</option>
+              <option value="West Bengal">West Bengal</option>
+              <option value="Andaman and Nicobar Islands">
+                Andaman and Nicobar Islands
+              </option>
+              <option value="Dadra and Nagar Haveli and Daman and Diu">
+                Dadra and Nagar Haveli and Daman and Diu
+              </option>
+              <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+              <option value="Lakshadweep">Lakshadweep</option>
             </select>
           </div>
           <div className="flex flex-col w-full">
@@ -407,6 +759,7 @@ const AddProperty = () => {
                 })
               }
               value={property.address.country}
+              required
               className="px-3 py-2 mt-1 border border-borderColor rounded-md outline-none"
             >
               <option value="">--Country--</option>

@@ -78,8 +78,8 @@ const toggleAvailability = async (propertyId, availablity)=>{
                 <td className='p-3 flex items-center gap-3'>
                   <img src={property.image} alt='' className='h-12 w-12 aspect-square rounded-md object-cover' />
                   <div className='max-md:hidden'>
-                    <p className='font-medium'>{property.title} {property.property_type}</p>
-                    <p className='text-xs text-gray-500'>{property.property_type} {property.property_type}</p>
+                    <p className='font-medium'>{property.title}</p>
+                    <p className='text-xs text-gray-500'>{property.address.city}, {property.address.state}</p>
                   </div>
                 </td>
                 <td className='p-3 max-md:hidden'>{property.category}</td>

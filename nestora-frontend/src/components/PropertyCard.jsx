@@ -25,7 +25,7 @@ const PropertyCard = ({ property }) => {
           alt="Property Image"
           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
         />
-        {property.isAvaliable && (
+        {property.available && (
           <p className="absolute top-2 left-4 bg-primary/90 text-white text-xs px-2.5 py-1 rounded-full">
             Available Now
           </p>
@@ -40,29 +40,24 @@ const PropertyCard = ({ property }) => {
       <div className="p-4 sm:p-5">
         <div className="flex justify-center items-start mb-2">
           <div>
-            <h3 className="text-lg font-medium">
-              {property.title}
-            </h3>
-            <p className="text-muted-foreground text-sm">
-              {property.category}
-            </p>
+            <h3 className="text-lg font-medium">{property.title}</h3>
+            <h6 className="text-center text-sm text-gray-600">{property.category}</h6>
+            <p className="text-muted-foreground text-sm"></p>
           </div>
         </div>
 
-        <div className="mt-4 grid grid-cols-2 gap-y-2 text-gray-600">
+        <div className="mt-4 grid grid-cols-2 gap-y-4 gap-x-8 text-gray-600">
           <div className="flex items-center text-sm text-muted-foreground">
             <img src={assets.dinner_icon} alt="" className="h-4 mr-2" />
             <span>Breakfast</span>
           </div>
           <div className="flex items-center text-sm text-muted-foreground">
-            <FaWifi className="h-4 w-4 mr-2" />
+            <FaWifi className="h-4 mr-2" />
             <span>Free Wi-Fi</span>
-            
           </div>
           <div className="flex items-center text-sm text-muted-foreground">
-            <IoBedOutline className="h-4 w-4 mr-2" />
-            <span>1/2/3 Available</span>
-            
+            <IoBedOutline className="h-4 mr-2" />
+            <span>{property.room_capacity}</span>
           </div>
           <div className="flex items-center text-sm text-muted-foreground">
             <img src={assets.location_icon} alt="" className="h-4 mr-2" />

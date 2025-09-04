@@ -27,31 +27,49 @@ import { IoKeyOutline } from "react-icons/io5";
 
 const PropertyDetails = () => {
   const { id } = useParams();
-  const {
-    properties,
-    checkInDate,
-    setCheckIndate,
-    checkOutDate,
-    setCheckOutdate,
-  } = useAppContext();
+  const propertyId = Number(id);
+  const { properties, token } = useAppContext();
   console.log("Properties in context:", properties); // Debugging line
   const navigate = useNavigate();
   const [property, setProperty] = useState(null);
   const currency = import.meta.env.VITE_CURRENCY;
+  const [booking, setBooking] = useState({
+          propertyId: propertyId,
+          fullName: "",
+          email: "",
+          mobileNumber: "",
+          guests: "",
+          checkInDate: "",
+          checkOutDate: "",
+          mode: "DAILY",
+          status: "PENDING",
+  });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await axios.post("/api/bookings", {
-        property: id,
-        checkInDate,
-        checkOutDate,
-      });
-      if (data.success) {
-        navigate("/my-bookings");
-      } else {
-        alert(data.message);
+      if(token !== null){
+        const { data } = await axios.post("/api/bookings/book-property", booking);
+        if (data.success) {
+          setBooking({
+            propertyId: propertyId,
+            fullName: "",
+            email: "",
+            mobileNumber: "",
+            guests: "",
+            checkInDate: "",
+            checkOutDate: "",
+            mode: "DAILY",
+            status: "PENDING",
+          });
+          navigate("/my-bookings");
+        } else {
+          alert(data.message);
+        }
+      }else{
+        toast.error("Please login to book a property");
       }
+      
     } catch (error) {
       toast.error(error.message);
     }
@@ -220,35 +238,96 @@ const PropertyDetails = () => {
             onSubmit={handleSubmit}
             className="shadow-lg h-max sticky top-18 rounded-xl p-6 space-y-6 text-gray-500"
           >
-            <p className="flex items-center justify-between text-2xl text-gray-800 font-semibold">
+            <p className="flex items-center text-2xl text-gray-800 font-semibold">
               {currency} {property.daily_price}
+              <h6 className="text-base text-gray-400 ">+ 18% GST </h6>
               <span className="text-base text-gray-400 font-normal">
                 {" "}
                 per day
               </span>
             </p>
             <hr className="border-borderColor my-6" />
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-6">
+              <div className="flex flex-col gap-2">
+                <label>Full Name</label>
+                <input
+                  type="text"
+                  placeholder="Enter your full name"
+                  className="border border-borderColor px-3 py-2 rounded-lg"
+                  required
+                  id="fullname"
+                  value={booking.fullName}
+                  onChange={(e) =>
+                    setBooking({ ...booking, fullName: e.target.value })
+                  }
+                />
+              </div>
+
+              <div className="flex flex-col gap-2">
+                <label>Email</label>
+                <input
+                  type="text"
+                  placeholder="Enter your email"
+                  className="border border-borderColor px-3 py-2 rounded-lg"
+                  required
+                  id="email"
+                  value={booking.email}
+                  onChange={(e) =>
+                    setBooking({ ...booking, email: e.target.value })
+                  }
+                />
+              </div>
+              <div className="flex flex-col gap-2">
+                <label>Mobile</label>
+                <input
+                  type="text"
+                  placeholder="Enter your mobile number"
+                  className="border border-borderColor px-3 py-2 rounded-lg"
+                  required
+                  id="mobile"
+                  value={booking.mobileNumber}
+                  onChange={(e) =>
+                    setBooking({ ...booking, mobileNumber: e.target.value })
+                  }
+                />
+              </div>
+
+              <div className="flex flex-col gap-2">
+                <label>Guests</label>
+                <input
+                  type="text"
+                  placeholder="Number of guests"
+                  className="border border-borderColor px-3 py-2 rounded-lg"
+                  required
+                  id="guests"
+                  value={booking.guests}
+                  onChange={(e) =>
+                    setBooking({ ...booking, guests: e.target.value })
+                  }
+                />
+              </div>
+            </div>
             <div className="flex flex-col gap-2">
-              <label
-                value={checkInDate}
-                onChange={(e) => setCheckIndate(e.target.value)}
-                htmlFor="checkIn-Date"
-              >
-                Check-In Date
-              </label>
+              <label>Check-In Date</label>
               <input
                 type="date"
                 className="border border-borderColor px-3 py-2 rounded-lg"
                 required
                 id="pickup-date"
                 min={new Date().toISOString().split("T")[0]}
+                value={booking.checkInDate}
+                onChange={(e) =>
+                  setBooking({ ...booking, checkInDate: e.target.value })
+                }
               />
             </div>
             <div className="flex flex-col gap-2">
               <label htmlFor="checkOut-Date">Check-Out Date</label>
               <input
-                value={checkOutDate}
-                onChange={(e) => setCheckOutdate(e.target.value)}
+                value={booking.checkOutDate}
+                onChange={(e) =>
+                  setBooking({ ...booking, checkOutDate: e.target.value })
+                }
                 type="date"
                 className="border border-borderColor px-3 py-2 rounded-lg"
                 required
