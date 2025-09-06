@@ -12,6 +12,7 @@ public class DashboardResponse {
     private int pendingBookings;
     private int confirmedBookings;
     private int cancelledBookings;
+    private int completedBookings;
     private double totalRevenue;
 
     private List<Booking> recentBookings;

@@ -24,6 +24,7 @@ public class Booking {
     private String email;
     private int guests;
     private double bookingAmount;
+    private int totalRoomsBooked;
 
 
     @ManyToOne
@@ -130,6 +131,10 @@ public class Booking {
     public void setCreatedOn(LocalDate createdOn) {
         this.createdOn = createdOn;
     }
-
-
+    public int getTotalRoomsBooked() {
+        return totalRoomsBooked;
+    }
+    public void setTotalRoomsBooked(int totalRoomsBooked) {
+        this.totalRoomsBooked = totalRoomsBooked;
+    }
 }

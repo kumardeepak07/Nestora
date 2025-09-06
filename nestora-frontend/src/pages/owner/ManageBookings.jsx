@@ -48,6 +48,7 @@ const ManageBookings = () => {
           <thead className="text-gray-500">
             <tr>
               <th className="p-3 font-medium">Property</th>
+              <th className="p-3 font-medium">Booked by</th>
               <th className="p-3 font-medium max-md:hidden">Date Range</th>
               <th className="p-3 font-medium">Total</th>
               <th className="p-3 font-medium max-md:hidden">Payment</th>
@@ -69,6 +70,9 @@ const ManageBookings = () => {
                   <p className="font-medium max-md:hidden">
                     {booking.property.title}
                   </p>
+                </td>
+                <td className="p-3 max-md:hidden">
+                  {booking.fullName}
                 </td>
                 <td className="p-3 max-md:hidden">
                   {booking.checkInDate.split("T")[0]} to{" "}
@@ -96,12 +100,12 @@ const ManageBookings = () => {
                       <option value="PENDING">Pending</option>
                       <option value="CANCELLED">Cancelled</option>
                       <option value="CONFIRMED">Confirmed</option>
-                      <option value="COMPLETE">Complete</option>
+                      <option value="COMPLETED">Completed</option>
                     </select>
                   ) : (
                     <span
                       className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                        booking.status === "COMPLETE"
+                        booking.status === "COMPLETED"
                           ? "bg-green-100 text-green-500"
                           : "bg-red-100 text-red-500"
                       }`}

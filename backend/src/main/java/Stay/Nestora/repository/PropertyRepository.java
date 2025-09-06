@@ -1,5 +1,6 @@
 package Stay.Nestora.repository;
 
+import Stay.Nestora.model.Booking;
 import Stay.Nestora.model.Property;
 import Stay.Nestora.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -18,6 +19,8 @@ public interface PropertyRepository extends JpaRepository<Property,Long> {
 
     // Find by Owner ID
     List<Property> findByOwnerId(Long ownerId);
+
+    List<Property> findByAddress_City(String city);
 }
 
 

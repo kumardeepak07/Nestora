@@ -74,6 +74,7 @@ public class BookingService {
                 .guests(bookingRequest.getGuests())
                 .status(bookingRequest.getStatus())
                 .createdOn(LocalDate.now())
+                .totalRoomsBooked((int)totalRoomsRequired)
                 .user(user)
                 .build();
         Booking saved = bookingRepository.save(booking);
@@ -97,10 +98,12 @@ public class BookingService {
         dashboardResponse.setTotalProperties(properties.size());
         List<Booking> confirmedBookings = getOwnerBookingsByStatus(ownerId, "CONFIRMED");
         dashboardResponse.setConfirmedBookings(confirmedBookings.size());
-        List<Booking> pendingBookings = getOwnerBookingsByStatus(ownerId, "CONFIRMED");
+        List<Booking> pendingBookings = getOwnerBookingsByStatus(ownerId, "PENDING");
         dashboardResponse.setPendingBookings(pendingBookings.size());
-        List<Booking> cancelledBookings = getOwnerBookingsByStatus(ownerId, "PENDING");
+        List<Booking> cancelledBookings = getOwnerBookingsByStatus(ownerId, "CANCELLED");
         dashboardResponse.setCancelledBookings(cancelledBookings.size());
+        List<Booking> completedBookings = getOwnerBookingsByStatus(ownerId, "COMPLETED");
+        dashboardResponse.setCompletedBookings(completedBookings.size());
 
         double revenue = calculateRevenue(bookingsByOwner);
         dashboardResponse.setTotalRevenue(revenue);
@@ -120,6 +123,14 @@ public class BookingService {
     public Booking updateBookingStatus(Long bookingId, String status) {
         Booking booking = bookingRepository.findById(bookingId)
                 .orElseThrow(() -> new RuntimeException("Booking not found!"));
+
+        Property property = booking.getProperty();
+        if(status.equals("CONFIRMED")) {
+            property.setTotal_rooms_available(property.getTotal_rooms_available() - booking.getTotalRoomsBooked());
+        }else{
+            property.setTotal_rooms_available(property.getTotal_rooms_available() + booking.getTotalRoomsBooked());
+        }
+        propertyRepository.save(property);
         booking.setStatus(status);
         return bookingRepository.save(booking);
     }

@@ -5,9 +5,11 @@ import { useAppContext } from "../context/AppContext";
 import toast from "react-hot-toast";
 // eslint-disable-next-line no-unused-vars
 import { motion } from "motion/react";
+import NavbarSearch from "./SearchProperties";
 
 const Navbar = () => {
-  const { setShowLogin, user, logout, isOwner, axios, setIsOwner } = useAppContext();
+  const { setShowLogin, user, logout, isOwner, axios, setIsOwner } =
+    useAppContext();
   const location = useLocation();
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
@@ -61,15 +63,8 @@ const Navbar = () => {
           </Link>
         ))}
 
-        <div className="hidden lg:flex items-center text-sm gap-2 border border-borderColor px-3 rounded-full max-w-56">
-          <input
-            type="text"
-            className="py-1.5 w-full bg-transparent
-                outline-none placeholder:text-gray-500"
-            placeholder="Search properties"
-          />
-          <img src={assets.search_icon} alt="search" />
-        </div>
+        
+        <NavbarSearch />
         <div className="flex max-sm:flex-col items-start sm:items-center gap-6">
           <button
             onClick={() => (isOwner ? navigate("/owner") : changeRole())}

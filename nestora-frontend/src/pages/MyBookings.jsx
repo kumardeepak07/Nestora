@@ -71,7 +71,7 @@ const MyBookings = () => {
                 </p>
                 <p
                   className={`px-3 py-1 text-xs rounded-full ${
-                    booking.status === "confirmed"
+                    booking.status === "CONFIRMED" || booking.status === "COMPLETED"
                       ? "bg-green-400/15 text-green-600"
                       : "bg-red-400/15 text-red-600"
                   }`}
@@ -121,6 +121,7 @@ const MyBookings = () => {
                 </h1>
                 <h6>18% GST Included</h6>
                 <p>Booked on {booking.createdOn.split("T")[0]}</p>
+                <p>Check-In Time- 11:00 AM</p>
               </div>
             </div>
           </motion.div>

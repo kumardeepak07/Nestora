@@ -44,6 +44,11 @@ const Dashboard = () => {
       value: data.cancelledBookings,
       icon: assets.listIconColored,
     },
+    {
+      title: "Completed",
+      value: data.completedBookings,
+      icon: assets.listIconColored,
+    },
   ];
 
   const fetchDashboardData = async () => {
