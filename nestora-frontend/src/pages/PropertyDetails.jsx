@@ -28,7 +28,7 @@ import { IoKeyOutline } from "react-icons/io5";
 const PropertyDetails = () => {
   const { id } = useParams();
   const propertyId = Number(id);
-  const { properties, token } = useAppContext();
+  const { properties, user, setShowLogin } = useAppContext();
   console.log("Properties in context:", properties); // Debugging line
   const navigate = useNavigate();
   const [property, setProperty] = useState(null);
@@ -48,7 +48,7 @@ const PropertyDetails = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      if(token !== null){
+      if(user !== null){
         const { data } = await axios.post("/api/bookings/book-property", booking);
         if (data.success) {
           setBooking({
@@ -67,6 +67,7 @@ const PropertyDetails = () => {
           alert(data.message);
         }
       }else{
+        setShowLogin(true);
         toast.error("Please login to book a property");
       }
       

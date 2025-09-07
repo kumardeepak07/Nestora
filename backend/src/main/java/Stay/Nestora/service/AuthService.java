@@ -1,6 +1,5 @@
-package Stay.Nestora.auth;
+package Stay.Nestora.service;
 
-import Stay.Nestora.dto.AuthRequest;
 import Stay.Nestora.dto.AuthResponse;
 import Stay.Nestora.dto.RegisterRequest;
 import Stay.Nestora.jwt.JwtService;
@@ -9,12 +8,9 @@ import Stay.Nestora.model.User;
 import Stay.Nestora.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor

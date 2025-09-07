@@ -76,7 +76,7 @@ const NavbarSearch = () => {
     {loading ? (
       <Loader2 className="animate-spin text-gray-400 w-4 h-4" />
     ) : (
-      <img src={assets.search_icon} alt="search" className="w-4 h-4" />
+      <img src={assets.search_icon} alt="search" className="w-4 h-4 cursor-pointer" />
     )}
   </div>
 

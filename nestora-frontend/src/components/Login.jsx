@@ -4,8 +4,9 @@ import toast from "react-hot-toast";
 // eslint-disable-next-line no-unused-vars
 import { motion } from "motion/react";
 
+
 const Login = () => {
-  const { setShowLogin, axios, setToken, navigate } = useAppContext();
+  const { setShowLogin, axios, setToken } = useAppContext();
 
   const [state, setState] = React.useState("login");
   const [name, setName] = React.useState("");
@@ -21,7 +22,6 @@ const Login = () => {
         password,
       });
       if (data.success) {
-        navigate("/");
         setToken(data.data);
         localStorage.setItem("token", data.data);
         setShowLogin(false);

@@ -39,9 +39,9 @@ const Hero = () => {
         animate={{ scale: 1, opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.4 }}
         onSubmit={handleSearch}
-        className="flex flex-col md:flex-row items-center justify-between 
-             p-6 rounded-full w-full max-w-4xl bg-white 
-             shadow-[0px_8px_20px_rgba(0,0,0,0.1)] gap-6"
+        className="flex flex-col md:flex-row items-stretch md:items-center justify-between 
+             p-6 rounded-2xl md:rounded-full w-full max-w-4xl bg-white 
+             shadow-[0px_8px_20px_rgba(0,0,0,0.1)] gap-4 md:gap-6"
       >
         {/* Destination */}
         <div className="flex flex-col text-left w-full md:w-auto">
@@ -154,7 +154,7 @@ const Hero = () => {
         initial={{ y: 100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.8, delay: 0.6 }}
-        src={assets.main_car}
+        src={assets.main_property}
         alt="car"
         className="max-h-72 object-contain"
       />

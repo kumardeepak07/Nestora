@@ -36,24 +36,24 @@ public class BookingController {
     private final UserService userService;
 
     @PostMapping("/upload-proof")
-    public ResponseEntity<String> uploadProof(@RequestParam("file") MultipartFile file) throws IOException {
+    public ApiResponse<?> uploadProof(@RequestParam("file") MultipartFile file) throws IOException {
         String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
         Path path = Paths.get("uploads/" + fileName);
         Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
-        return ResponseEntity.ok(fileName);
+        return new ApiResponse<>(true, fileName, "Proof has been uploaded successfully");
     }
 
     @GetMapping("/my-bookings")
-    public ResponseEntity<List<Booking>> getUserBookings(@AuthenticationPrincipal UserDetails userDetails) {
+    public ApiResponse<?> getUserBookings(@AuthenticationPrincipal UserDetails userDetails) {
         User user = userRepository.findByEmail(userDetails.getUsername()).orElseThrow();
         List<Booking> bookings = bookingRepository.findByUser(user);
-        return ResponseEntity.ok(bookings);
+        return new ApiResponse<>(true, user, "Bookings have been found");
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/all")
-    public ResponseEntity<List<Booking>> getAllBookings() {
-        return ResponseEntity.ok(bookingRepository.findAll());
+    public ApiResponse<?> getAllBookings() {
+        return new ApiResponse<>(true, bookingRepository.findAll(), "Bookings have been found");
     }
 
     @PostMapping("/book-property")
@@ -86,7 +86,7 @@ public class BookingController {
         ApiResponse<User> apiResponse = userService.checkUserAuthentication(authHeader);
 
         if (!apiResponse.isSuccess()) {
-            return new ApiResponse<>(false,apiResponse.getMessage(),null);
+            return new ApiResponse<>(false,apiResponse.getMessage(),"Dashboard Data Not Fetched");
         }
         User owner = apiResponse.getData();
         DashboardResponse dashboardResponse = bookingService.getOwnerDashboardData(owner.getId(), owner.getEmail());

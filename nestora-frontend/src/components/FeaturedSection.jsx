@@ -55,7 +55,7 @@ const FeaturedSection = () => {
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.4 }}
         onClick={() => {
-          navigate("/property-details");
+          navigate("/properties");
           scrollTo(0, 0);
         }}
         className="flex items-center justify-center gap-2 px-6 py-2 border border-borderColor hover:bg-gray-50 rounded-md mt-18 cursor-pointer"

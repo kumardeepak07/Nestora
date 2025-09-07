@@ -1,5 +1,6 @@
 package Stay.Nestora.controller;
 
+import Stay.Nestora.dto.ApiResponse;
 import Stay.Nestora.service.CashfreeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,12 +20,12 @@ public class PaymentController {
     private final CashfreeService cashfreeService;
 
     @PostMapping("/create")
-    public ResponseEntity<String> createPayment(@RequestParam String email, @RequestParam double amount) {
+    public ApiResponse<?> createPayment(@RequestParam String email, @RequestParam double amount) {
         try {
             String paymentLink = cashfreeService.createOrder(UUID.randomUUID().toString(), amount, email);
-            return ResponseEntity.ok(paymentLink);
+            return new ApiResponse<>(true, paymentLink, "Payment Created Successfully");
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to create payment");
+            return new ApiResponse<>(true, null, "Failed to create Payment: " + e.getMessage());
         }
     }
 }

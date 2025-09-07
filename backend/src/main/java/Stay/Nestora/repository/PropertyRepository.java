@@ -11,8 +11,6 @@ import java.util.List;
 
 @Repository
 public interface PropertyRepository extends JpaRepository<Property,Long> {
-    // Find by owner's email
-    List<Property> findByOwnerEmail(String email);
 
     // Find by owner entity
     List<Property> findByOwner(User owner);

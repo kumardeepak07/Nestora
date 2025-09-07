@@ -35,7 +35,7 @@ public class PropertyController {
 
     //CREATE
     @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<?> addProperty(
+    public ApiResponse<?> addProperty(
             @RequestPart("property") Property property,
             @RequestPart("image") MultipartFile imageFile,
             HttpServletRequest request) {
@@ -44,7 +44,7 @@ public class PropertyController {
             ApiResponse<User> apiResponse = userService.checkUserAuthentication(authHeader);
 
             if (!apiResponse.isSuccess()) {
-                return ResponseEntity.status(401).build(); // unauthorized
+                return new ApiResponse<>(false, null, "User is not authorized"); // unauthorized
             }
 
             User loggedInUser = apiResponse.getData();
@@ -62,12 +62,11 @@ public class PropertyController {
             // save property
             Property createdProperty = propertyService.createProperty(property);
 
-            return ResponseEntity.ok(new ApiResponse<Property>(true,createdProperty,"Property Added"));
+            return new ApiResponse<Property>(true, createdProperty,"Property Added");
         } catch (Exception e) {
-            return ResponseEntity.status(500).body(null);
+            return  new ApiResponse<>(false, null, "Failed to create Property: " + e.getMessage());
         }
     }
-
 
     //READ ALL
     @GetMapping
@@ -92,7 +91,7 @@ public class PropertyController {
         ApiResponse<User> apiResponse = userService.checkUserAuthentication(authHeader);
 
         if (!apiResponse.isSuccess()) {
-            return new ApiResponse<>(false,apiResponse.getMessage(),null);
+            return new ApiResponse<>(false,apiResponse.getMessage(),"User is not authorized");
         }
 
         User owner = apiResponse.getData();
@@ -102,24 +101,14 @@ public class PropertyController {
     }
     //READ ONE
     @GetMapping("/{id}")
-    public ResponseEntity<Property> getPropertyById(@PathVariable Long id) {
+    public ApiResponse<?> getPropertyById(@PathVariable Long id) {
         Optional<Property> property = propertyRepository.findById(id);
-        return property.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+        if(property.isPresent()) {
+            return new ApiResponse<>(true, property,"Property Found");
+        }
+        return new ApiResponse<>(false, null,"Property not found");
     }
 
-    // UPDATE
-    @PutMapping("/{id}")
-    public ResponseEntity<Property> updateProperty(@PathVariable Long id, @RequestBody Property updated) {
-        return propertyRepository.findById(id).map(existing -> {
-            existing.setTitle(updated.getTitle());
-            existing.setDescription(updated.getDescription());
-            existing.setImage(updated.getImage());
-            existing.setDaily_price(updated.getDaily_price());
-            existing.setMonthly_price(updated.getMonthly_price());
-            existing.setAddress(updated.getAddress());
-            return ResponseEntity.ok(propertyRepository.save(existing));
-        }).orElse(ResponseEntity.notFound().build());
-    }
 
     // DELETE
     @DeleteMapping("/delete-property/{id}")

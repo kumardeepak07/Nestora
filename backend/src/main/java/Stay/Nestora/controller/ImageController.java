@@ -23,7 +23,7 @@ public class ImageController {
     private final UserRepository userRepository;
 
     @PostMapping("/user-profile")
-    public ResponseEntity<?> uploadImage(HttpServletRequest request, @RequestParam("file") MultipartFile file) {
+    public ApiResponse<?> uploadImage(HttpServletRequest request, @RequestParam("file") MultipartFile file) {
         try {
             String token = request.getHeader("Authorization");
             if (token != null) {
@@ -35,12 +35,12 @@ public class ImageController {
                     user.setImage(imageUrl);
                     userRepository.save(user);
                     ApiResponse<User> updatedResponse = new ApiResponse<>(true, user, "Profile image updated successfully");
-                    return ResponseEntity.ok(updatedResponse);
+                    return updatedResponse;
                 }
             }
         } catch (Exception e) {
-            return ResponseEntity.status(500).body("Image upload failed: " + e.getMessage());
+            return new ApiResponse<>(false, null, "Image upload failed: " + e.getMessage());
         }
-        return ResponseEntity.status(500).body(new ApiResponse<>(false, null, "Image upload failed"));
+        return new ApiResponse<>(false, null, "Image upload failed");
     }
 }

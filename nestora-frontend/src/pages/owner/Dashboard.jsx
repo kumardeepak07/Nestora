@@ -22,7 +22,7 @@ const Dashboard = () => {
     {
       title: "Total Properties",
       value: data.totalProperties,
-      icon: assets.carIconColored,
+      icon: assets.homeIconColoured,
     },
     {
       title: "Total Bookings",

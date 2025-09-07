@@ -1,5 +1,6 @@
-package Stay.Nestora.auth;
+package Stay.Nestora.controller;
 
+import Stay.Nestora.service.AuthService;
 import Stay.Nestora.dto.*;
 import Stay.Nestora.jwt.JwtService;
 import Stay.Nestora.model.User;
@@ -28,17 +29,17 @@ public class AuthController {
     private final JwtService jwtService;
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody RegisterRequest req) {
+    public ApiResponse<?> register(@RequestBody RegisterRequest req) {
         Optional<User> user = userRepository.findByEmail(req.getEmail());
         if(user.isPresent()) {
-            return ResponseEntity.ok(new ApiResponse<String>(false, null, "User already exists"));
+            return new ApiResponse<String>(false, null, "User already exists");
         }
         ApiResponse<String> apiResponse = new ApiResponse<String>(true, authService.register(req).getToken(),"User Added Successfully");
-        return ResponseEntity.ok(apiResponse);
+        return apiResponse;
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequest request) {
+    public ApiResponse<?> login(@RequestBody LoginRequest request) {
         try {
             // Authenticate with Spring Security
             authenticationManager.authenticate(
@@ -49,11 +50,10 @@ public class AuthController {
             String token = jwtService.generateToken(userDetails);
             // Return the token
             ApiResponse<String> apiResponse = new ApiResponse<String>(true, token,"User Added Successfully");
-            return ResponseEntity.ok(apiResponse);
+            return apiResponse;
         } catch (Exception e) {
-            ApiResponse<String> apiResponse = new ApiResponse<String>(true, e.getMessage(),"User Added Successfully");
-            return ResponseEntity.ok(apiResponse);
-
+            ApiResponse<String> apiResponse = new ApiResponse<String>(false, null, e.getMessage());
+            return apiResponse;
         }
     }
 }

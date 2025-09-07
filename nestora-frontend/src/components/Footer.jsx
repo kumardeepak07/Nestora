@@ -1,5 +1,6 @@
 import React from 'react'
 import { assets } from '../assets/assets'
+// eslint-disable-next-line no-unused-vars
 import { motion } from 'motion/react'
 
 const Footer = () => {
@@ -19,7 +20,7 @@ const Footer = () => {
                     initial={{opacity: 0}}
                     whileInView={{opacity: 1}}
                     transition={{duration: 0.5, delay: 0.3}}
-                    src={assets.nestora_image} alt="logo" className='h-8 md:h-20' />
+                    src={assets.nestora_logo} alt="logo" className='h-8 md:h-20' />
                     <motion.p 
                     initial={{opacity: 0}}
                     whileInView={{opacity: 1}}

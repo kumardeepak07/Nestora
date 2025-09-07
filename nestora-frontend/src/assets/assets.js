@@ -7,12 +7,10 @@ import menu_icon from "./menu_icon.svg";
 import search_icon from "./search_icon.svg"
 import close_icon from "./close_icon.svg"
 import users_icon from "./users_icon.svg"
-import car_icon from "./Home_Icon.png"
+import home_icon from "./Home_Icon.png"
 import location_icon from "./location_icon.svg"
-import fuel_icon from "./fuel_icon.svg"
 import addIcon from "./addIcon.svg"
-import carIcon from "./Home_Icon.png"
-import carIconColored from "./property_blue.svg"
+import homeIconColoured from "./property_blue.svg"
 import dashboardIcon from "./dashboardIcon.svg"
 import dashboardIconColored from "./dashboardIconColored.svg"
 import addIconColored from "./addIconColored.svg"
@@ -32,15 +30,11 @@ import calendar_icon_colored from "./calendar_icon_colored.svg"
 import location_icon_colored from "./location_icon_colored.svg"
 import testimonial_image_1 from "./testimonial_image_1.png"
 import testimonial_image_2 from "./testimonial_image_2.png"
-import main_car from "./villa_home.png"
-import banner_car_image from "./banner_logo.png"
+import main_property from "./villa_home.png"
+import banner_property_image from "./banner_logo.png"
 import user_profile from "./user_profile.png"
 import upload_icon from "./upload_icon.svg"
-import car_image1 from "./villa1.jpg"
-import car_image2 from "./villa2.jpg"
-import car_image3 from "./villa3.jpg"
-import car_image4 from "./villa4.jpg"
-import nestora_image from "./nestora-logo.svg";
+import nestora_logo from "./nestora-logo.svg";
 import dinner_icon from "./dinner_icon.png";
 
 
@@ -367,12 +361,10 @@ export const assets = {
     close_icon,
     users_icon,
     edit_icon,
-    car_icon,
+    home_icon,
     location_icon,
-    fuel_icon,
     addIcon,
-    carIcon,
-    carIconColored,
+    homeIconColoured,
     dashboardIcon,
     dashboardIconColored,
     addIconColored,
@@ -391,15 +383,11 @@ export const assets = {
     filter_icon,
     testimonial_image_1,
     testimonial_image_2,
-    main_car,
-    banner_car_image,
-    car_image1,
+    main_property,
+    banner_property_image,
     upload_icon,
     user_profile,
-    car_image2,
-    car_image3,
-    car_image4,
-    nestora_image,
+    nestora_logo,
     dinner_icon,
 }
 
@@ -412,7 +400,7 @@ export const menuLinks = [
 export const ownerMenuLinks = [
     { name: "Dashboard", path: "/owner", icon: dashboardIcon, coloredIcon: dashboardIconColored },
     { name: "Add Property", path: "/owner/add-property", icon: addIcon, coloredIcon: addIconColored },
-    { name: "Manage Properties", path: "/owner/manage-property", icon: carIcon, coloredIcon: carIconColored },
+    { name: "Manage Properties", path: "/owner/manage-property", icon: home_icon, coloredIcon: homeIconColoured },
     { name: "Manage Bookings", path: "/owner/manage-bookings", icon: listIcon, coloredIcon: listIconColored },
 ]
 
@@ -429,7 +417,7 @@ export const dummyPropertyData = [
         "_id": "67ff5bc069c03d4e45f30b77",
         "title": "ITC Maurya",
         "description": "Luxe Property",
-        "image": car_image1,
+        "image": "",
         "property_type" : "Luxury",
         "currency": "",
         "daily_price": 10000,
@@ -448,7 +436,7 @@ export const dummyPropertyData = [
         "_id": "67ff5bc069c03d4e45f30b78",
         "title": "ITC Maurya",
         "description": "Luxe Property",
-        "image": car_image2,
+        "image": "",
         "property_type" : "Luxury",
         "currency": "",
         "daily_price": 10000,
@@ -467,7 +455,7 @@ export const dummyPropertyData = [
         "_id": "67ff5bc069c03d4e45f30b79",
         "title": "ITC Maurya",
         "description": "Luxe Property",
-        "image": car_image1,
+        "image": "",
         "property_type" : "Luxury",
         "currency": "",
         "daily_price": 10000,
@@ -486,7 +474,7 @@ export const dummyPropertyData = [
         "_id": "67ff5bc069c03d4e45f30b80",
         "title": "ITC Maurya",
         "description": "Luxe Property",
-        "image": car_image1,
+        "image": "",
         "property_type" : "Luxury",
         "currency": "",
         "daily_price": 10000,

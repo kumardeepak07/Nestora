@@ -1,6 +1,7 @@
 import React from 'react'
 import Title from './Title'
 import { assets } from '../assets/assets';
+// eslint-disable-next-line no-unused-vars
 import { motion } from 'motion/react';
 
 const Testimonial = () => {

@@ -1,5 +1,6 @@
 import { useState, useRef } from "react"
 import { default as ReactSelect } from "react-select"
+// eslint-disable-next-line no-unused-vars
 import { components } from "react-select"
 
 const MultiSelect = props => {

@@ -35,14 +35,14 @@ const Navbar = () => {
       initial={{ y: -20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.5 }}
-      className={`h-14 flex items-center justify-between px-6 md:px-16 lg:px-24
+      className={`h-16 flex items-center justify-between px-6 md:px-16 lg:px-24
     xl:px-32 py-4 text-gray-600 border-b border-borderColor relative transition-all
     ${location.pathname === "/" && "bg-light"}`}
     >
       <Link to="/" className="flex items-center gap-2">
         <motion.img
           whileHover={{ scale: 1.05 }}
-          src={assets.nestora_image}
+          src={assets.nestora_logo}
           alt="logo"
           className="h-14 md:h-24 w-auto object-contain"
         />
