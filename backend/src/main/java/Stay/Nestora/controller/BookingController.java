@@ -71,7 +71,7 @@ public class BookingController {
         ApiResponse<User> apiResponse = userService.checkUserAuthentication(authHeader);
 
         if (!apiResponse.isSuccess()) {
-            return new ApiResponse<>(false,apiResponse.getMessage(),null);
+            return new ApiResponse<>(false,apiResponse.getMessage(),"User Not Logged In");
         }
 
         User owner = apiResponse.getData();

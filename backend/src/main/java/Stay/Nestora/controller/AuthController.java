@@ -49,7 +49,7 @@ public class AuthController {
             // Generate JWT token
             String token = jwtService.generateToken(userDetails);
             // Return the token
-            ApiResponse<String> apiResponse = new ApiResponse<String>(true, token,"User Added Successfully");
+            ApiResponse<String> apiResponse = new ApiResponse<String>(true, token,"LoggedIn Successfully");
             return apiResponse;
         } catch (Exception e) {
             ApiResponse<String> apiResponse = new ApiResponse<String>(false, null, e.getMessage());

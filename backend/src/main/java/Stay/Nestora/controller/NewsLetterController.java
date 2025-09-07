@@ -20,8 +20,8 @@ public class NewsLetterController {
     public ApiResponse<?> subscribe(@RequestParam String email) {
         NewsLetter newsletter = newsLetterService.subscribe(email);
         if (newsletter != null) {
-            return new ApiResponse<NewsLetter>(true, newsletter, "success");
+            return new ApiResponse<NewsLetter>(true, newsletter, "Subscribed successfully");
         }
-        return new ApiResponse<NewsLetter>(false, null, "fail");
+        return new ApiResponse<NewsLetter>(false, null, "User Already Subscribed");
     }
 }

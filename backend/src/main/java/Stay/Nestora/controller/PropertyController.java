@@ -133,6 +133,6 @@ public class PropertyController {
     @GetMapping("/search-properties")
     public ApiResponse<?> getPropertiesByLocation(@RequestParam String city) {
         List<Property> properties = propertyRepository.findByAddress_City(city);
-        return new ApiResponse<>(true, properties,"Property List by city");
+        return new ApiResponse<>(true, properties,"Successfully fetched Property List by city");
     }
 }
