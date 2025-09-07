@@ -17,7 +17,6 @@ const options = [
 ];
 const AddProperty = () => {
   const { axios, currency } = useAppContext();
-
   const [optionSelected, setSelected] = useState();
   const handleChange = (selected) => {
     setSelected(selected);
@@ -41,6 +40,7 @@ const AddProperty = () => {
     hospital_distance: "",
     airport_distance: "",
     available: true,
+    currency: currency,
     address: {
       street: "",
       city: "",
@@ -88,6 +88,7 @@ const AddProperty = () => {
           hospital_distance: "",
           airport_distance: "",
           available: true,
+          currency: currency,
           address: {
             street: "",
             city: "",
