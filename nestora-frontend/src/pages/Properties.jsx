@@ -52,10 +52,12 @@ const Properties = () => {
     if (isSearchData) {
       searchProperties();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     properties.length > 0 && !isSearchData && applyFilter();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [input, properties]);
 
   return (

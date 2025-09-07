@@ -60,6 +60,7 @@ const ManageProperty = () => {
 
   useEffect(() => {
     isOwner && fetchOwnerProperties();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOwner]);
 
   return (

@@ -11,6 +11,7 @@ const Layout = () => {
     if (!isOwner) {
       navigate("/");
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOwner]);
   return (
     <div className="flex flex-col">

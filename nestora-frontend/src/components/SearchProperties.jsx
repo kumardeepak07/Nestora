@@ -1,3 +1,4 @@
+import React from "react";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Loader2 } from "lucide-react";
@@ -46,6 +47,7 @@ const NavbarSearch = () => {
 
     const delay = setTimeout(fetchResults, 300);
     return () => clearTimeout(delay);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query]);
 
   // 🔗 Handle selection

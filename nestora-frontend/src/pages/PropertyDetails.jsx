@@ -81,6 +81,7 @@ const PropertyDetails = () => {
       properties.find((prop) => prop._id.toString() === id.toString())
     );
     console.log("Selected property:", property); // Debugging line
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [properties, id]);
 
   return property ? (

@@ -34,6 +34,7 @@ const ManageBookings = () => {
 
   useEffect(() => {
     fetchOwnerBookings();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

@@ -26,6 +26,7 @@ const MyBookings = () => {
 
   useEffect(() => {
     user && fetchMyBookings();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
   return (
     <motion.div

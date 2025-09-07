@@ -38,7 +38,6 @@ export const AppProvider = ({ children }) => {
       const { data } = await axios.get("/api/properties");
       if (data.success) {
         setProperties(data.data.content);
-        console.log("Fetched properties:", data.data.content); // ✅ pick content from data.data
       } else {
         toast.error(data.message);
       }
@@ -69,6 +68,7 @@ export const AppProvider = ({ children }) => {
       fetchUser();
       fetchProperties();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token]);
 
   const value = {
