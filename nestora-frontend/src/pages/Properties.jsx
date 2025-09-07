@@ -25,12 +25,14 @@ const Properties = () => {
       return null;
     }
     const filtered = properties.slice().filter((property) => {
-      return property.address.city.toLowerCase().includes(input.toLowerCase())
-      || property.address.state.toLowerCase().includes(input.toLowerCase())
-      || property.address.country.toLowerCase().includes(input.toLowerCase())
-      || property.property_type.toLowerCase().includes(input.toLowerCase())
-      || property.title.toLowerCase().includes(input.toLowerCase());
-    })
+      return (
+        property.address.city.toLowerCase().includes(input.toLowerCase()) ||
+        property.address.state.toLowerCase().includes(input.toLowerCase()) ||
+        property.address.country.toLowerCase().includes(input.toLowerCase()) ||
+        property.property_type.toLowerCase().includes(input.toLowerCase()) ||
+        property.title.toLowerCase().includes(input.toLowerCase())
+      );
+    });
     setFilteredProperties(filtered);
   };
 

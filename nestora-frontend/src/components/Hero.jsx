@@ -3,11 +3,11 @@ import { assets, cityList } from "../assets/assets";
 import { useAppContext } from "../context/AppContext";
 // eslint-disable-next-line no-unused-vars
 import { motion } from "motion/react";
-import { Home } from "lucide-react";
+import { useState } from "react";
 
 const Hero = () => {
-  const [propertyLocation, setPropertyLocation] = React.useState("");
-  const [guests] = React.useState(1);
+  const [propertyLocation, setPropertyLocation] = useState("");
+  const [guests] = useState(1);
   const {
     checkInDate,
     setCheckInDate,
@@ -31,7 +31,6 @@ const Hero = () => {
       className="h-screen flex flex-col items-center justify-center gap-14 bg-light text-center px-4"
     >
       {/* Heading */}
-      
 
       {/* Search Form */}
       <motion.form
@@ -118,36 +117,33 @@ const Hero = () => {
           Search
         </motion.button>
       </motion.form>
-<div className="text-center">
-      {/* Main Heading */}
-      <motion.h1
-        initial={{ clipPath: "inset(0 100% 0 0)" }}
-        animate={{ clipPath: "inset(0 0% 0 0)" }}
-        transition={{
-          duration: 2,
-          ease: "easeInOut",
-          
-        }}
-        className="text-4xl md:text-5xl font-extrabold tracking-tight 
+      <div className="text-center">
+        {/* Main Heading */}
+        <motion.h1
+          initial={{ clipPath: "inset(0 100% 0 0)" }}
+          animate={{ clipPath: "inset(0 0% 0 0)" }}
+          transition={{
+            duration: 2,
+            ease: "easeInOut",
+          }}
+          className="text-4xl md:text-5xl font-extrabold tracking-tight 
                    text-gray-900 font-['Playfair_Display'] inline-block"
-      >
-        Affordable <span className="text-primary">Luxury</span> on Rent
+        >
+          Affordable <span className="text-primary">Luxury</span> on Rent
+          <div className="w-28 h-1 bg-primary mt-3 mx-auto rounded-full"></div>
+        </motion.h1>
 
-        <div className="w-28 h-1 bg-primary mt-3 mx-auto rounded-full"></div>
-      </motion.h1>
-
-      {/* Subtitle */}
-      <motion.p
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1, delay: 0.6 }}
-        className="mt-4 text-sm md:text-base text-gray-600 font-light"
-      >
-        Discover premium homes, apartments, and villas — all at affordable prices.
-      </motion.p>
-    </div>
-
-
+        {/* Subtitle */}
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 0.6 }}
+          className="mt-4 text-sm md:text-base text-gray-600 font-light"
+        >
+          Discover premium homes, apartments, and villas — all at affordable
+          prices.
+        </motion.p>
+      </div>
 
       {/* Hero Image */}
       <motion.img

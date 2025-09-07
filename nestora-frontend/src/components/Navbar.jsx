@@ -63,7 +63,6 @@ const Navbar = () => {
           </Link>
         ))}
 
-        
         <NavbarSearch />
         <div className="flex max-sm:flex-col items-start sm:items-center gap-6">
           <button

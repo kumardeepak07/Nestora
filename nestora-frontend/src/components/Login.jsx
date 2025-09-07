@@ -4,7 +4,6 @@ import toast from "react-hot-toast";
 // eslint-disable-next-line no-unused-vars
 import { motion } from "motion/react";
 
-
 const Login = () => {
   const { setShowLogin, axios, setToken } = useAppContext();
 
@@ -25,6 +24,7 @@ const Login = () => {
         setToken(data.data);
         localStorage.setItem("token", data.data);
         setShowLogin(false);
+        toast.success(data.message);
       } else {
         toast.error(data.message);
       }

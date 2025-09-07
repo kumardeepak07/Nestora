@@ -108,10 +108,10 @@ const Dashboard = () => {
                   />
                 </div>
                 <div>
-                  <p>
-                    {booking.property.title}
+                  <p>{booking.property.title}</p>
+                  <p className="text-sm text-gray-500">
+                    {booking.property.category}
                   </p>
-                  <p className="text-sm text-gray-500">{booking.property.category}</p>
                 </div>
               </div>
               <div className="flex items-center gap-2 font-medium">

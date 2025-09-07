@@ -7,17 +7,19 @@ const About = () => {
   const [expanded, setExpanded] = useState(false);
 
   return (
-    <motion.section 
-    initial={{ opacity: 0 }}
+    <motion.section
+      initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.8 }}
-    className="flex flex-col md:flex-row items-start justify-center gap-12 px-6 md:px-12 py-20 bg-light relative">
+      className="flex flex-col md:flex-row items-start justify-center gap-12 px-6 md:px-12 py-20 bg-light relative"
+    >
       {/* Left: Text (scrolls with page) */}
-      <motion.div 
-      initial={{ opacity: 0, y: 20 }}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1, delay: 0.6 }}
-      className="max-w-lg w-full md:w-1/2 text-center md:text-left">
+        className="max-w-lg w-full md:w-1/2 text-center md:text-left"
+      >
         <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-2">
           What We Do
         </h2>
@@ -45,15 +47,20 @@ const About = () => {
               unforgettable. With StayNestora, every trip feels like a retreat.
             </p>
             <p className="mt-4 text-gray-600 leading-relaxed text-sm md:text-base">
-                Over the years, we have partnered with many leading brands from the aviation & hospitality industries, 
-                creating fruitful partner relations for business expansion opportunities. We also entered the homestays & 
-                villas and continue to procure increased market share market in the same. With this, 
-                we also entered the ground transport space and commenced offering cab, bus & train booking services.
+              Over the years, we have partnered with many leading brands from
+              the aviation & hospitality industries, creating fruitful partner
+              relations for business expansion opportunities. We also entered
+              the homestays & villas and continue to procure increased market
+              share market in the same. With this, we also entered the ground
+              transport space and commenced offering cab, bus & train booking
+              services.
             </p>
             <p className="mt-4 text-gray-600 leading-relaxed text-sm md:text-base">
-                What makes our story even stronger is the performance of our newly launched segments, 
-                like myDestination—our comprehensive business travel suite and myTraveller—an exclusive platform for travel agents. 
-                Entering the Mountains market is our latest feat, where we offer power-packed deals on flights & hotels.
+              What makes our story even stronger is the performance of our newly
+              launched segments, like myDestination—our comprehensive business
+              travel suite and myTraveller—an exclusive platform for travel
+              agents. Entering the Mountains market is our latest feat, where we
+              offer power-packed deals on flights & hotels.
             </p>
           </>
         )}
@@ -70,11 +77,12 @@ const About = () => {
       </motion.div>
 
       {/* Right: Sticky Image */}
-      <motion.div 
-      initial={{ scale: 0.95, opacity: 0, y: 50 }}
+      <motion.div
+        initial={{ scale: 0.95, opacity: 0, y: 50 }}
         animate={{ scale: 1, opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.4 }}
-      className="relative w-full md:w-1/2 max-w-xl">
+        className="relative w-full md:w-1/2 max-w-xl"
+      >
         <div className="sticky top-20">
           <img
             className="w-full h-[500px] object-cover rounded-2xl shadow-2xl"

@@ -60,9 +60,7 @@ const MyBookings = () => {
               <p className="text-lg font-medium mt-2">
                 {booking.property.title}
               </p>
-              <p className="text-gray-500">
-                {booking.property.category}
-              </p>
+              <p className="text-gray-500">{booking.property.category}</p>
             </div>
             <div className="md:col-span-2">
               <div className="flex items-center gap-2">
@@ -71,7 +69,8 @@ const MyBookings = () => {
                 </p>
                 <p
                   className={`px-3 py-1 text-xs rounded-full ${
-                    booking.status === "CONFIRMED" || booking.status === "COMPLETED"
+                    booking.status === "CONFIRMED" ||
+                    booking.status === "COMPLETED"
                       ? "bg-green-400/15 text-green-600"
                       : "bg-red-400/15 text-red-600"
                   }`}
@@ -116,8 +115,7 @@ const MyBookings = () => {
               <div className="text-sm text-gray-500 text-right">
                 <p>Total Amount</p>
                 <h1 className="text-2xl font-semibold text-primary">
-                  {currency} {" "}
-                  {booking.bookingAmount} {" "}
+                  {currency} {booking.bookingAmount}{" "}
                 </h1>
                 <h6>18% GST Included</h6>
                 <p>Booked on {booking.createdOn.split("T")[0]}</p>

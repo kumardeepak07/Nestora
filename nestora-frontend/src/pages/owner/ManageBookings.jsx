@@ -71,9 +71,7 @@ const ManageBookings = () => {
                     {booking.property.title}
                   </p>
                 </td>
-                <td className="p-3 max-md:hidden">
-                  {booking.fullName}
-                </td>
+                <td className="p-3 max-md:hidden">{booking.fullName}</td>
                 <td className="p-3 max-md:hidden">
                   {booking.checkInDate.split("T")[0]} to{" "}
                   {booking.checkOutDate.split("T")[0]}

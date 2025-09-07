@@ -9,9 +9,8 @@ const NavbarSearch = () => {
   const [results, setResults] = useState([]);
   const [activeIndex, setActiveIndex] = useState(-1);
   const navigate = useNavigate();
-  // eslint-disable-next-line no-unused-vars
   const [loading, setLoading] = useState(false);
-  const {properties} = useAppContext();
+  const { properties } = useAppContext();
 
   // 🔎 Fetch results (debounced)
   useEffect(() => {
@@ -23,16 +22,24 @@ const NavbarSearch = () => {
       try {
         setLoading(true);
         const filtered = properties.slice().filter((property) => {
-            return property.address.city.toLowerCase().includes(query.toLowerCase())
-            || property.address.state.toLowerCase().includes(query.toLowerCase())
-            || property.address.country.toLowerCase().includes(query.toLowerCase())
-            || property.property_type.toLowerCase().includes(query.toLowerCase())
-            || property.title.toLowerCase().includes(query.toLowerCase());
-            })
-            setResults(filtered);
+          return (
+            property.address.city.toLowerCase().includes(query.toLowerCase()) ||
+            property.address.state
+              .toLowerCase()
+              .includes(query.toLowerCase()) ||
+            property.address.country
+              .toLowerCase()
+              .includes(query.toLowerCase()) ||
+            property.property_type
+              .toLowerCase()
+              .includes(query.toLowerCase()) ||
+            property.title.toLowerCase().includes(query.toLowerCase())
+          );
+        });
+        setResults(filtered);
       } catch (err) {
         console.error("Error fetching search results:", err);
-      }finally{
+      } finally {
         setLoading(false);
       }
     };
@@ -63,49 +70,54 @@ const NavbarSearch = () => {
 
   return (
     <div className="relative w-[400px] max-w-xl">
-  <div className="hidden lg:flex items-center text-sm gap-2 border border-borderColor px-3 rounded-full w-full">
-    <input
-      type="text"
-      placeholder="Search properties..."
-      className="py-2 w-full bg-transparent outline-none placeholder:text-gray-500"
-      value={query}
-      onChange={(e) => setQuery(e.target.value)}
-      onKeyDown={handleKeyDown}
-    />
-    {/* Loader or Search Icon */}
-    {loading ? (
-      <Loader2 className="animate-spin text-gray-400 w-4 h-4" />
-    ) : (
-      <img src={assets.search_icon} alt="search" className="w-4 h-4 cursor-pointer" />
-    )}
-  </div>
-
-  {/* Dropdown Results */}
-  {results.length > 0 && (
-    <ul className="absolute mt-2 w-full bg-white border rounded-lg shadow-lg max-h-72 overflow-y-auto z-50">
-      {results.map((property, index) => (
-        <li
-          key={property._id}
-          className={`px-3 py-2 cursor-pointer flex items-center space-x-3 ${
-            index === activeIndex ? "bg-gray-200" : "hover:bg-gray-100"
-          }`}
-          onClick={() => handleSelect(property)}
-        >
+      <div className="hidden lg:flex items-center text-sm gap-2 border border-borderColor px-3 rounded-full w-full">
+        <input
+          type="text"
+          placeholder="Search properties..."
+          className="py-2 w-full bg-transparent outline-none placeholder:text-gray-500"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          onKeyDown={handleKeyDown}
+        />
+        {/* Loader or Search Icon */}
+        {loading ? (
+          <Loader2 className="animate-spin text-gray-400 w-4 h-4" />
+        ) : (
           <img
-            src={property.image || "/placeholder.jpg"}
-            alt={property.title}
-            className="w-12 h-12 object-cover rounded-md border"
+            src={assets.search_icon}
+            alt="search"
+            className="w-4 h-4 cursor-pointer"
           />
-          <div>
-            <p className="font-medium">{property.title}</p>
-            <p className="text-sm text-gray-500">{property.address?.city}</p>
-          </div>
-        </li>
-      ))}
-    </ul>
-  )}
-</div>
+        )}
+      </div>
 
+      {/* Dropdown Results */}
+      {results.length > 0 && (
+        <ul className="absolute mt-2 w-full bg-white border rounded-lg shadow-lg max-h-72 overflow-y-auto z-50">
+          {results.map((property, index) => (
+            <li
+              key={property._id}
+              className={`px-3 py-2 cursor-pointer flex items-center space-x-3 ${
+                index === activeIndex ? "bg-gray-200" : "hover:bg-gray-100"
+              }`}
+              onClick={() => handleSelect(property)}
+            >
+              <img
+                src={property.image || "/placeholder.jpg"}
+                alt={property.title}
+                className="w-12 h-12 object-cover rounded-md border"
+              />
+              <div>
+                <p className="font-medium">{property.title}</p>
+                <p className="text-sm text-gray-500">
+                  {property.address?.city}
+                </p>
+              </div>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
   );
 };
 

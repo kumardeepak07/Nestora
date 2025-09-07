@@ -3,7 +3,7 @@ import Title from "./Title";
 import { assets } from "../assets/assets";
 // eslint-disable-next-line no-unused-vars
 import { motion } from "motion/react";
-import Avatar from '@mui/material/Avatar';
+import Avatar from "@mui/material/Avatar";
 
 const Testimonial = () => {
   const testimonials = [

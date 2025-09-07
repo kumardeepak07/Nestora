@@ -3,9 +3,6 @@ import { assets } from "../assets/assets";
 import { useNavigate } from "react-router-dom";
 import { FaWifi } from "react-icons/fa";
 import { IoBedOutline } from "react-icons/io5";
-import { FaSwimmer } from "react-icons/fa";
-import { PiAirplaneLight } from "react-icons/pi";
-import { PiHospitalLight } from "react-icons/pi";
 
 const PropertyCard = ({ property }) => {
   const currency = import.meta.env.VITE_CURRENCY;
@@ -41,7 +38,9 @@ const PropertyCard = ({ property }) => {
         <div className="flex justify-center items-start mb-2">
           <div>
             <h3 className="text-lg font-medium">{property.title}</h3>
-            <h6 className="text-center text-sm text-gray-600">{property.category}</h6>
+            <h6 className="text-center text-sm text-gray-600">
+              {property.category}
+            </h6>
             <p className="text-muted-foreground text-sm"></p>
           </div>
         </div>

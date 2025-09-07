@@ -6,23 +6,25 @@ import toast from "react-hot-toast";
 import { useState } from "react";
 
 const Newsletter = () => {
-    const {axios} = useAppContext();
-    const [email, setEmail] = useState("");
-    const onSubmitHandler = async (e) => {
-        e.preventDefault();
-        try {
-            const { data } = await axios.post(`/api/newsletter/subscribe?email=${email}`);
-            if(data.success){
-                toast.success(data.message);
-                setEmail("");
-            }else{
-                toast.error(data.message);
-                setEmail("");
-            }
-        } catch (error) {
-            toast.error(error.message);
-        }
+  const { axios } = useAppContext();
+  const [email, setEmail] = useState("");
+  const onSubmitHandler = async (e) => {
+    e.preventDefault();
+    try {
+      const { data } = await axios.post(
+        `/api/newsletter/subscribe?email=${email}`
+      );
+      if (data.success) {
+        toast.success(data.message);
+        setEmail("");
+      } else {
+        toast.error(data.message);
+        setEmail("");
+      }
+    } catch (error) {
+      toast.error(error.message);
     }
+  };
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}

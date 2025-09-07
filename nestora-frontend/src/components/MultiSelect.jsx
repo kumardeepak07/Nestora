@@ -1,25 +1,25 @@
-import { useState, useRef } from "react"
-import { default as ReactSelect } from "react-select"
+import { useState, useRef } from "react";
+import { default as ReactSelect } from "react-select";
 // eslint-disable-next-line no-unused-vars
-import { components } from "react-select"
+import { components } from "react-select";
 
-const MultiSelect = props => {
-  const [selectInput, setSelectInput] = useState("")
-  const isAllSelected = useRef(false)
-  const selectAllLabel = useRef("Select all")
-  const allOption = { value: "*", label: selectAllLabel.current }
+const MultiSelect = (props) => {
+  const [selectInput, setSelectInput] = useState("");
+  const isAllSelected = useRef(false);
+  const selectAllLabel = useRef("Select all");
+  const allOption = { value: "*", label: selectAllLabel.current };
 
   const filterOptions = (options, input) =>
     options?.filter(({ label }) =>
       label.toLowerCase().includes(input.toLowerCase())
-    )
+    );
 
-  const comparator = (v1, v2) => v1.value - v2.value
+  const comparator = (v1, v2) => v1.value - v2.value;
 
-  let filteredOptions = filterOptions(props.options, selectInput)
-  let filteredSelectedOptions = filterOptions(props.value, selectInput)
+  let filteredOptions = filterOptions(props.options, selectInput);
+  let filteredSelectedOptions = filterOptions(props.value, selectInput);
 
-  const Option = props => (
+  const Option = (props) => (
     <components.Option {...props}>
       {props.value === "*" &&
       !isAllSelected.current &&
@@ -27,8 +27,8 @@ const MultiSelect = props => {
         <input
           key={props.value}
           type="checkbox"
-          ref={input => {
-            if (input) input.indeterminate = true
+          ref={(input) => {
+            if (input) input.indeterminate = true;
           }}
         />
       ) : (
@@ -41,9 +41,9 @@ const MultiSelect = props => {
       )}
       <label style={{ marginLeft: "5px" }}>{props.label}</label>
     </components.Option>
-  )
+  );
 
-  const Input = props => (
+  const Input = (props) => (
     <>
       {selectInput.length === 0 ? (
         <components.Input autoFocus={props.selectProps.menuIsOpen} {...props}>
@@ -57,23 +57,24 @@ const MultiSelect = props => {
         </div>
       )}
     </>
-  )
+  );
 
   const customFilterOption = ({ value, label }, input) =>
     (value !== "*" && label.toLowerCase().includes(input.toLowerCase())) ||
-    (value === "*" && filteredOptions?.length > 0)
+    (value === "*" && filteredOptions?.length > 0);
 
   const onInputChange = (inputValue, event) => {
-    if (event.action === "input-change") setSelectInput(inputValue)
+    if (event.action === "input-change") setSelectInput(inputValue);
     else if (event.action === "menu-close" && selectInput !== "")
-      setSelectInput("")
-  }
+      setSelectInput("");
+  };
 
-  const onKeyDown = e => {
-    if ((e.key === " " || e.key === "Enter") && !selectInput) e.preventDefault()
-  }
+  const onKeyDown = (e) => {
+    if ((e.key === " " || e.key === "Enter") && !selectInput)
+      e.preventDefault();
+  };
 
-  const handleChange = selected => {
+  const handleChange = (selected) => {
     if (
       selected.length > 0 &&
       !isAllSelected.current &&
@@ -87,41 +88,41 @@ const MultiSelect = props => {
           ...props.options.filter(
             ({ label }) =>
               label.toLowerCase().includes(selectInput?.toLowerCase()) &&
-              (props.value ?? []).filter(opt => opt.label === label).length ===
-                0
-          )
+              (props.value ?? []).filter((opt) => opt.label === label)
+                .length === 0
+          ),
         ].sort(comparator)
-      )
+      );
     else if (
       selected.length > 0 &&
       selected[selected.length - 1].value !== allOption.value &&
       JSON.stringify(selected.sort(comparator)) !==
         JSON.stringify(filteredOptions)
     )
-      return props.onChange(selected)
+      return props.onChange(selected);
     else
       return props.onChange([
         // eslint-disable-next-line no-unsafe-optional-chaining
         ...props.value?.filter(
           ({ label }) =>
             !label.toLowerCase().includes(selectInput?.toLowerCase())
-        )
-      ])
-  }
+        ),
+      ]);
+  };
 
   const customStyles = {
-    multiValueLabel: def => ({
+    multiValueLabel: (def) => ({
       ...def,
-      backgroundColor: "lightgray"
+      backgroundColor: "lightgray",
     }),
-    multiValueRemove: def => ({
+    multiValueRemove: (def) => ({
       ...def,
-      backgroundColor: "lightgray"
+      backgroundColor: "lightgray",
     }),
-    valueContainer: base => ({
+    valueContainer: (base) => ({
       ...base,
       maxHeight: "65px",
-      overflow: "auto"
+      overflow: "auto",
     }),
     option: (styles, { isSelected, isFocused }) => {
       return {
@@ -134,25 +135,25 @@ const MultiSelect = props => {
             : isFocused && isSelected
             ? "#DEEBFF"
             : null,
-        color: isSelected ? null : null
-      }
+        color: isSelected ? null : null,
+      };
     },
-    menu: def => ({ ...def, zIndex: 9999 })
-  }
+    menu: (def) => ({ ...def, zIndex: 9999 }),
+  };
 
   if (props.isSelectAll && props.options.length !== 0) {
     isAllSelected.current =
       JSON.stringify(filteredSelectedOptions) ===
-      JSON.stringify(filteredOptions)
+      JSON.stringify(filteredOptions);
 
     if (filteredSelectedOptions?.length > 0) {
       if (filteredSelectedOptions?.length === filteredOptions?.length)
-        selectAllLabel.current = `All (${filteredOptions.length}) selected`
+        selectAllLabel.current = `All (${filteredOptions.length}) selected`;
       else
-        selectAllLabel.current = `${filteredSelectedOptions?.length} / ${filteredOptions.length} selected`
-    } else selectAllLabel.current = "Select all"
+        selectAllLabel.current = `${filteredSelectedOptions?.length} / ${filteredOptions.length} selected`;
+    } else selectAllLabel.current = "Select all";
 
-    allOption.label = selectAllLabel.current
+    allOption.label = selectAllLabel.current;
 
     return (
       <ReactSelect
@@ -165,7 +166,7 @@ const MultiSelect = props => {
         components={{
           Option: Option,
           Input: Input,
-          ...props.components
+          ...props.components,
         }}
         filterOption={customFilterOption}
         menuPlacement={props.menuPlacement ?? "auto"}
@@ -177,7 +178,7 @@ const MultiSelect = props => {
         hideSelectedOptions={false}
         blurInputOnSelect={false}
       />
-    )
+    );
   }
 
   return (
@@ -188,7 +189,7 @@ const MultiSelect = props => {
       filterOption={customFilterOption}
       components={{
         Input: Input,
-        ...props.components
+        ...props.components,
       }}
       menuPlacement={props.menuPlacement ?? "auto"}
       onKeyDown={onKeyDown}
@@ -197,7 +198,7 @@ const MultiSelect = props => {
       backspaceRemovesValue={false}
       blurInputOnSelect={true}
     />
-  )
-}
+  );
+};
 
-export default MultiSelect
+export default MultiSelect;

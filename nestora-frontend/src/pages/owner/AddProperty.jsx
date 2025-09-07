@@ -7,7 +7,6 @@ import MultiSelect from "../../components/MultiSelect";
 // eslint-disable-next-line no-unused-vars
 import { motion } from "motion/react";
 
-
 const options = [
   { value: 0, label: "1/2/3/4/5 Bedrooms" },
   { value: 1, label: "1BHK" },

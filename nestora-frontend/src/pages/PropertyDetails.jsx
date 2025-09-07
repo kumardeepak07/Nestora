@@ -3,7 +3,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { assets } from "../assets/assets";
 import Loader from "../components/Loader";
 import { useAppContext } from "../context/AppContext";
-import axios from "axios";
 import toast from "react-hot-toast";
 // eslint-disable-next-line no-unused-vars
 import { motion } from "motion/react";
@@ -28,28 +27,31 @@ import { IoKeyOutline } from "react-icons/io5";
 const PropertyDetails = () => {
   const { id } = useParams();
   const propertyId = Number(id);
-  const { properties, user, setShowLogin } = useAppContext();
+  const { properties, user, setShowLogin, axios } = useAppContext();
   console.log("Properties in context:", properties); // Debugging line
   const navigate = useNavigate();
   const [property, setProperty] = useState(null);
   const currency = import.meta.env.VITE_CURRENCY;
   const [booking, setBooking] = useState({
-          propertyId: propertyId,
-          fullName: "",
-          email: "",
-          mobileNumber: "",
-          guests: "",
-          checkInDate: "",
-          checkOutDate: "",
-          mode: "DAILY",
-          status: "PENDING",
+    propertyId: propertyId,
+    fullName: "",
+    email: "",
+    mobileNumber: "",
+    guests: "",
+    checkInDate: "",
+    checkOutDate: "",
+    mode: "DAILY",
+    status: "PENDING",
   });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      if(user !== null){
-        const { data } = await axios.post("/api/bookings/book-property", booking);
+      if (user !== null) {
+        const { data } = await axios.post(
+          "/api/bookings/book-property",
+          booking
+        );
         if (data.success) {
           setBooking({
             propertyId: propertyId,
@@ -66,11 +68,10 @@ const PropertyDetails = () => {
         } else {
           alert(data.message);
         }
-      }else{
+      } else {
         setShowLogin(true);
         toast.error("Please login to book a property");
       }
-      
     } catch (error) {
       toast.error(error.message);
     }
