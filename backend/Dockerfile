@@ -1,25 +1,13 @@
-# Use an official JDK runtime as a parent image
-FROM openjdk:17-jdk-slim
-
-# Set the working directory inside the container
+# Build stage
+FROM maven:3.9.6-eclipse-temurin-17 AS build
 WORKDIR /app
-
-# Copy Maven wrapper and pom.xml
-COPY mvnw .
-COPY .mvn .mvn
 COPY pom.xml .
-
-# Download dependencies (to leverage Docker cache)
-RUN ./mvnw dependency:go-offline
-
-# Copy project source
 COPY src src
+RUN mvn package -DskipTests
 
-# Build the Spring Boot app
-RUN ./mvnw package -DskipTests
-
-# Expose port (Spring Boot default is 8080)
+# Runtime stage
+FROM openjdk:17-jdk-slim
+WORKDIR /app
+COPY --from=build /app/target/target/Nestora-0.0.1-SNAPSHOT.jar app.jar
 EXPOSE 8080
-
-# Run the jar file
-CMD ["java", "-jar", "target/Nestora-0.0.1-SNAPSHOT.jar"]
+CMD ["java", "-jar", "app.jar"]
