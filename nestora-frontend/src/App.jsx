@@ -2,6 +2,7 @@ import React from "react";
 import Navbar from "./components/Navbar";
 import { Route, Routes, useLocation } from "react-router-dom";
 import Home from "./pages/Home";
+import About from "./pages/About";
 import Properties from "./pages/Properties";
 import MyBookings from "./pages/MyBookings";
 import PropertyDetails from "./pages/PropertyDetails";
@@ -26,6 +27,7 @@ const App = () => {
       {!isOwnerPath && <Navbar />}
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
         <Route path="/property-details/:id" element={<PropertyDetails />} />
         <Route path="/properties" element={<Properties />} />
         <Route path="/my-bookings" element={<MyBookings />} />

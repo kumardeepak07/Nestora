@@ -1,3 +1,5 @@
+
+
 import logo from "./logo.svg";
 import gmail_logo from "./gmail_logo.svg";
 import facebook_logo from "./facebook_logo.svg";
@@ -10,15 +12,20 @@ import users_icon from "./users_icon.svg"
 import home_icon from "./Home_Icon.png"
 import location_icon from "./location_icon.svg"
 import addIcon from "./addIcon.svg"
-import homeIconColoured from "./property_blue.svg"
+
+import homeIconColoured from "./home_icon_coloured.png"
 import dashboardIcon from "./dashboardIcon.svg"
-import dashboardIconColored from "./dashboardIconColored.svg"
-import addIconColored from "./addIconColored.svg"
+
+import dashboardIconColored from "./dashboard_icon_coloured.png"
+
+import addIconColored from "./add_icon_coloured.png"
 import listIcon from "./listIcon.svg"
-import listIconColored from "./listIconColored.svg"
-import cautionIconColored from "./cautionIconColored.svg"
+
+import listIconColored from "./list_icon_coloured.png"
+
+import cautionIconColored from "./caution_icons_coloured.png"
 import arrow_icon from "./arrow_icon.svg"
-import star_icon from "./star_icon.svg"
+import star_icon from "./star_icon.png"
 import check_icon from "./check_icon.svg"
 import tick_icon from "./tick_icon.svg"
 import delete_icon from "./delete_icon.svg"
@@ -28,14 +35,16 @@ import filter_icon from "./filter_icon.svg"
 import edit_icon from "./edit_icon.svg"
 import calendar_icon_colored from "./calendar_icon_colored.svg"
 import location_icon_colored from "./location_icon_colored.svg"
-import testimonial_image_1 from "./testimonial_image_1.png"
-import testimonial_image_2 from "./testimonial_image_2.png"
+import testimonial_image_1 from "./testimonial_profile1.jpg"
+import testimonial_image_2 from "./testimonial_profile2.jpg"
+import testimonial_image_3 from "./testimonial_profile3.jpg"
 import main_property from "./villa_home.png"
 import banner_property_image from "./banner_logo.png"
 import user_profile from "./user_profile.png"
 import upload_icon from "./upload_icon.svg"
 import nestora_logo from "./nestora-logo.svg";
 import dinner_icon from "./dinner_icon.png";
+import travelling from "./travelling.jpg";
 
 
 export const cityList = [
@@ -383,16 +392,19 @@ export const assets = {
     filter_icon,
     testimonial_image_1,
     testimonial_image_2,
+    testimonial_image_3,
     main_property,
     banner_property_image,
     upload_icon,
     user_profile,
     nestora_logo,
     dinner_icon,
+    travelling
 }
 
 export const menuLinks = [
     { name: "Home", path: "/" },
+    { name: "About", path: "/about" },
     { name: "Properties", path: "/properties" },
     { name: "My Bookings", path: "/my-bookings" },
 ]
