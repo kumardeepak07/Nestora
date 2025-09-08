@@ -41,7 +41,7 @@ const ManageProperty = () => {
   const deleteProperty = async (propertyId) => {
     try {
       const confirm = window.confirm(
-        "Are you sure you want to delete this car"
+        "Are you sure you want to delete this property"
       );
       if (!confirm) return null;
       const { data } = await axios.delete(
