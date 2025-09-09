@@ -28,7 +28,7 @@ const Hero = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.8 }}
-      className="h-screen flex flex-col items-center justify-center gap-14 bg-light text-center px-4"
+      className="min-h-screen pt-10 flex flex-col items-center justify-center gap-14 bg-light text-center px-4"
     >
       {/* Heading */}
 

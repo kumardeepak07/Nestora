@@ -44,7 +44,7 @@ const Navbar = () => {
           whileHover={{ scale: 1.05 }}
           src={assets.nestora_logo}
           alt="logo"
-          className="h-14 md:h-24 w-auto object-contain"
+          className="h-24 w-auto min-w-[120px] object-contain shrink-0"
         />
       </Link>
 
