@@ -6,18 +6,13 @@ import { useNavigate } from "react-router-dom";
 import { useAppContext } from "../context/AppContext";
 // eslint-disable-next-line no-unused-vars
 import { motion } from "motion/react";
-import toast from "react-hot-toast";
-import { useEffect } from "react";
+
 
 const FeaturedSection = () => {
   const navigate = useNavigate();
 
   const { properties } = useAppContext();
-  useEffect(() => {
-      if (properties.length === 0) {
-        toast.error("Server Restarted. Please refresh the page after sometime");
-      }
-    }, [properties.length]);
+  
   return (
     <motion.div
       initial={{ opacity: 1, y: 40 }}
