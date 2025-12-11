@@ -103,9 +103,10 @@ REACT_APP_API_URL=http://localhost:3000/api
 ## Architecture & System Design
 
 ```mermaid
+
 flowchart LR
   subgraph Client
-    A[Next.js Frontend (SSR/CSR)]
+    A[Next.js Frontend]
   end
 
   subgraph API
@@ -120,6 +121,7 @@ flowchart LR
   A -->|HTTPS / API Calls| C
   C --> DB
   C --> D
+
 ```
 
 **Components explained**
@@ -137,7 +139,7 @@ flowchart LR
 
 **Property**
 
-* `POST /api/properties/ — Add new property
+* `POST /api/properties/` — Add new property
 * `GET /api/properties/` — Get all properties
 * `GET /api/properties/my-properties` — Get owner properties
 * `GET /api/properties/{id}` — Get property by ID
