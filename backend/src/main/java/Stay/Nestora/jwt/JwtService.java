@@ -13,7 +13,7 @@ import java.util.Date;
 
 @Service
 public class JwtService {
-    private static final String SECRET_KEY = "StayNestoraSuperSecureKey_2025!_Jwt_Key_XYZ1234";
+    private static final String SECRET_KEY = environment.getProperty("JwtSecretKey");
 
     public String generateToken(UserDetails userDetails) {
         return Jwts.builder()
