@@ -13,7 +13,16 @@ import java.util.Date;
 
 @Service
 public class JwtService {
-    private static final String SECRET_KEY = environment.getProperty("JwtSecretKey");
+
+    private final String secretKey;
+
+    // Constructor Injection: Spring will automatically inject Environment here
+    public JwtService(Environment environment) {
+        this.secretKey = environment.getProperty("JwtSecretKey");
+        if (this.secretKey == null) {
+            throw new IllegalStateException("Required property 'JwtSecretKey' is missing!");
+        }
+    }
 
     public String generateToken(UserDetails userDetails) {
         return Jwts.builder()
@@ -26,12 +35,13 @@ public class JwtService {
     }
 
     private Key getSignInKey() {
-        byte[] keyBytes = SECRET_KEY.getBytes(StandardCharsets.UTF_8);
+        // Ensure the key is long enough for HS256 (at least 32 characters)
+        byte[] keyBytes = secretKey.getBytes(StandardCharsets.UTF_8);
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
     public String extractUsername(String token) {
-        try{
+        try {
             Claims claims = Jwts.parserBuilder()
                     .setAllowedClockSkewSeconds(60)
                     .setSigningKey(getSignInKey())
@@ -39,9 +49,8 @@ public class JwtService {
                     .parseClaimsJws(token)
                     .getBody();
             return claims.getSubject();
-        }
-        catch (Exception e){
-            System.out.println("JWT expired at: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("JWT error: " + e.getMessage());
         }
         return null;
     }
